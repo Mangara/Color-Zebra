@@ -32,6 +32,10 @@
             hue += 30 + 300 * Math.random();
         }
         
+        this.setHue = function(newHue) {
+            hue = newHue;
+        }
+        
         function drawQuadratic() {
             // The test image consists of a sine wave plus a ramp function
             // The sine wave has a wavelength of 8 pixels (which is why we multiply by 2pi/8 = pi/4)

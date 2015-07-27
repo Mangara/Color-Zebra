@@ -26,7 +26,7 @@
             }
             
             context.beginPath();
-            for (t = 0; t < 1; t += 0.01) {
+            for (t = 0; t < 1; t += 0.05) {
                 context.lineTo.apply(context, getSplineCoords(t));
             }
             context.strokeStyle = "#000";
@@ -37,17 +37,17 @@
         var knots = [0, 0, 0, 0.25, 0.5, 0.75, 1, 1, 1];
         
         function getSplineCoords(t) {
-            console.log('Evaluating t = ' + t);
+            //console.log('Evaluating t = ' + t);
             var sum = [0, 0];
             
             for (var i = 0, max = points.length; i < max; i++) {
                 var b = basis(i, 3, t);
                 sum[0] += points[i][0] * b;
                 sum[1] += points[i][1] * b;
-                console.log('  Basis ' + i + ' = ' + b + '. Resulting contribution: (' + (points[i][0] * b) + ', ' +  (points[i][1] * b) + ').');
+                //console.log('  Basis ' + i + ' = ' + b + '. Resulting contribution: (' + (points[i][0] * b) + ', ' +  (points[i][1] * b) + ').');
             }
             
-            console.log('Result: ' + sum);
+            //console.log('Result: ' + sum);
             
             return sum;
         }
@@ -72,7 +72,7 @@
                 }
             }
             
-            console.log('    Basis(' + i + ', ' + k + ', ' + t + ') = ' + result);
+            //console.log('    Basis(' + i + ', ' + k + ', ' + t + ') = ' + result);
             return result;
         }
     }
