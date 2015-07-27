@@ -1,0 +1,39 @@
+body {
+    
+}
+
+#preview-container {
+    width: 100%;
+    height: 10 em;
+}
+
+#preview {
+    border: 0px solid orange;
+}
+
+#spline-container {
+    width: 100%;
+    height: 20em;
+    margin-top: 2em;
+}
+
+#spline {
+    border: 1px solid teal;
+}
+
+#acknowledgments {
+    margin-top: 5em;
+}
+
+#attribution-address {
+    display: block;
+    margin-top: 1em;
+    padding: 0.5em;
+    
+    color: black;
+    text-decoration: none;
+    
+    background-color: #ddd;
+    border: 1px solid #999;
+    border-radius: 5px;
+}

@@ -1,0 +1,34 @@
+Colormaps correspond to curves through a color space.
+For best results, use a color space where perceptually similar colors are nearby, such as the various CIELAB spaces.
+At low spacial resolution, our eyes are far less color-sensitive, but still light-sensitive. Since the purpose of a colormap is to see small features in the data, it is crucial that the lightness changes consistently.
+A curve with non-linear lightness change can still be transformed into a colormap with linear lightness change, by stretching and compressing parts of the mapping so that equidistant values map to curve points with equidistant lightness.
+CIE76 is fine, no need for the fancier ones like CIEDE2000.
+
+==Generating a linear colormap==
+
+- Control points in CIELAB space
+- Fit linear or quadratic B-Spline through them
+ => Curve C in CIELAB space
+ 
+- Find points on C that are equally distant in perceptual space. For us, that means Lightness.
+ x Is it be possible to solve the equations to figure out where the curve intersects the lightness plane?
+  o Should be. C is piecewise linear or piecewise quadratic, and we know how to solve linear and quadratic equations.
+ x Otherwise:
+  o Generate N points equidistant along C (C(0.1), C(0.2), etc.)
+  o Consider lightness curve against t
+  o By linear interpolation, find t such that lightness = x, for equidistant x
+  o Possibly, repeat a few times
+  
+== Test Image ==
+
+- Image consists of a sine wave superimposed on a ramp function (linear 0 -> 1)
+- Sine wave peak to through is ~ 10% of the total data range.
+- Sine with wavelength of 8 pixels.
+- Amplitude increases with the square of the distance from the bottom of this image.
+ x Alternative: linear decrease, followed by part at 0 (2/3 - 1/3)? This should let me render it as one gradient, which is hopefully faster.
+ 
+== B-Splines ==
+
+- The knots of a linear B-spline do not affect the resulting curve, only the "speed" at which a point traverses each section. (The curve is parametrized wrt some parameter t. The knots determine which t intervals map to which parts of the curve.)
+- We only care about the geometry, so we can use any knot sequence we want.
+- We can assume that a linear spline has knot vector [0, 0, 1/(n-1), 2/(n-1), ..., (n-2)/(n-1), 1, 1], where n is the number of control points

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html> 
+    <head>
+        <title>Color Zebra</title>
+        <link rel="stylesheet" type="text/css" href="../css/main.css">
+        
+        <!-- External libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        
+        <!-- My JS files -->
+        <script src="../js/main.js"></script>
+        <script src="../js/Preview.js"></script>
+        <script src="../js/SplineCanvas.js"></script>
+        
+        <script>
+            ColorZebra.main();
+        </script>
+    </head>
+    <body>
+        <div id="preview-container">
+            <canvas id="preview"></canvas>
+        </div>
+        <div id="spline-container">
+            <canvas id="spline"></canvas>
+        </div>
+        <button id="ch_hue">Change hue</button>
+        
+        <div id="acknowledgments">
+            <p>Color Zebra is based on research by</p>
+            <p id="attribution-address">
+                CET Perceptually Uniform Colour Maps<br>
+                Peter Kovesi<br>
+                Centre for Exploration Targeting<br>
+                School of Earth and Environment<br>
+                The University of Western Australia<br>
+                <a href="http://www.cet.edu.au/research-projects/colourmaps">www.cet.edu.au/research-projects/colourmaps</a><br>
+                Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+            </p>
+        </div>
+    </body>
+</html>
