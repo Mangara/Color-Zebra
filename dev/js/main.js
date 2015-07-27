@@ -13,9 +13,7 @@
             
             var s = new ColorZebra.LinearSpline([ [12.973, 47.505, -64.705], [97.139, -21.558, 94.477] ]);
             
-            var c = new ColorZebra.Color([97.139, -21.558, 94.477]);
-            console.log(c.toRGB());
-            console.log(ColorZebra.Color.LABtoRGB([12.973, 47.505, -64.705]));
+            ColorZebra.Color.test();
             
             assignActionHandlers();
         });
