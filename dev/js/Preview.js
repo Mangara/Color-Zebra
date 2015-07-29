@@ -120,10 +120,22 @@
         
         
         
+        var map = new ColorZebra.LinearSpline([
+            [30, 45.838, -76.288], // 30 ch2ab(89, -59)
+            [60, 0, 0],           // 60 0 0
+            [90, -9.3030, 88.5124]  // 90 ch2ab(89,96)
+        ]);
         
+        // function ab = ch2ab(chroma, angle_degrees)
+        //    theta = angle_degrees/180*pi;
+        //    ab = chroma*[cos(theta) sin(theta)];
         
         function getColor(value) {
-            return "hsl(" + hue + ", 100%, " + (100 * value) + "%)";
+            var l = 30 + value * 60;
+            var color = map.getColorForLightness(l);
+            var rgb = ColorZebra.Color.LABtoRGB(color);
+            console.log('Value: ' + value + ' L: ' + l + ' color: ' + color + ' rgb: ' + rgb);
+            return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
         }
     }
 }( window.ColorZebra = window.ColorZebra || {}, jQuery ));
