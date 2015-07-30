@@ -49,6 +49,10 @@
             }
         }
         
+        this.toCSSColor = function() {
+            var rgb = this.toRGB();
+            return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+        }
     }
     
     /* ColorZebra.Color.fromRGB = function(rgb) {
@@ -58,6 +62,11 @@
     ColorZebra.Color.LABtoRGB = function(cielab) {
         var c = new ColorZebra.Color(cielab);
         return c.toRGB();
+    }
+    
+    ColorZebra.Color.LABtoCSS = function(cielab) {
+        var c = new ColorZebra.Color(cielab);
+        return c.toCSSColor();
     }
 
     ColorZebra.Color.test = function() {
