@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.4">
-<info created="D:20150729222736" modified="D:20150801105241"/>
+<info created="D:20150729222736" modified="D:20150802202437"/>
 <preamble>\usepackage{mathtools}</preamble>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
@@ -415,5 +415,68 @@ N_{i,3}(x) &amp;= \frac{x - (i - 3)}{(i + 2 - 3) - (i - 3)} \cdot N_{i,2}(x) + \
 
 
 </text>
+</page>
+<page>
+<layer name="alpha"/>
+<view layers="alpha" active="alpha"/>
+<text layer="alpha" transformations="translations" pos="16 832" stroke="black" type="minipage" width="560" height="294.669" depth="290.4" valign="top">\begin{align*}
+N_{n-1,3}(x) &amp;= \frac{x - t_{n-1}}{t_{n+1}-t_{n-1}} \cdot N_{n-1,2}(x) + \frac{t_{n+2} - x}{t_{n+2}-t_{n}} \cdot N_{n,2}(x)\\
+             &amp;= \frac{x - (n-1-3)}{(n+1-3) - (n-1-3)} \cdot N_{n-1,2}(x) + \frac{(n-2) - x}{(n-2) - (n-3)} \cdot N_{n,2}(x)\\
+             &amp;= \frac{x - n + 4}{2} \cdot N_{n-1,2}(x) + (-x + n - 2) \cdot N_{n,2}(x)\\
+             &amp;= \frac{x - n + 4}{2} \cdot \begin{dcases}
+                                            x - (n-1) + 3,      &amp; \textrm{if } (n-1) - 3 \leq x &lt; (n-1) - 2\\
+                                            (n-1) - 1 - x,      &amp; \textrm{if } (n-1) - 2 \leq x &lt; (n-1) - 1\\
+                                            0,                  &amp; \textrm{otherwise}
+                                          \end{dcases}
+              + (-x + n - 2) \cdot \begin{dcases}
+                                     x - n +3,       &amp; \textrm{if } n - 3 \leq x &lt; n - 2\\
+                                     0,              &amp; \textrm{otherwise}
+                                   \end{dcases}\\
+             &amp;= \begin{dcases}
+                  \frac{x - n + 4}{2} \cdot x - n + 4,      &amp; \textrm{if } n - 4 \leq x &lt; n - 3\\
+                  \frac{x - n + 4}{2} \cdot -x + n - 2,     &amp; \textrm{if } n - 3 \leq x &lt; n - 2\\
+                  0,                                        &amp; \textrm{otherwise}
+                \end{dcases}
+              + \begin{dcases}
+                  (-x + n - 2) \cdot (x - n + 3),       &amp; \textrm{if } n - 3 \leq x &lt; n - 2\\
+                  0,                                  &amp; \textrm{otherwise}
+                \end{dcases}\\
+             &amp;= \begin{dcases}
+                  \frac{x^2 + (8 - 2n)x + n^2 - 8n + 16}{2},     &amp; \textrm{if } n - 4 \leq x &lt; n - 3\\
+                  \frac{-x^2 + (2n - 6)x - n^2 + 6n - 8}{2},     &amp; \textrm{if } n - 3 \leq x &lt; n - 2\\
+                  0,                                             &amp; \textrm{otherwise}
+                \end{dcases}
+              + \begin{dcases}
+                  -x^2 + (2n - 5)x - n^2 + 5n - 6,     &amp; \textrm{if } n - 3 \leq x &lt; n - 2\\
+                  0,                                   &amp; \textrm{otherwise}
+                \end{dcases}\\
+             &amp;= \begin{dcases}
+                  \frac{x^2 + (8 - 2n)x + n^2 - 8n + 16}{2},     &amp; \textrm{if } n - 4 \leq x &lt; n - 3\\
+                  \frac{-x^2 + (2n - 6)x - n^2 + 6n - 8}{2} + -x^2 + (2n - 5)x - n^2 + 5n - 6,     &amp; \textrm{if } n - 3 \leq x &lt; n - 2\\
+                  0,                                             &amp; \textrm{otherwise}
+                \end{dcases}\\
+             &amp;= \begin{dcases}
+                  \frac{x^2 + (8 - 2n)x + n^2 - 8n + 16}{2},      &amp; \textrm{if } n - 4 \leq x &lt; n - 3\\
+                  \frac{-3x^2 + (6n - 16)x - 3n^2 + 16n - 20}{2}, &amp; \textrm{if } n - 3 \leq x &lt; n - 2\\
+                  0,                                              &amp; \textrm{otherwise}
+                \end{dcases}
+\end{align*}
+
+\begin{align*}
+N_{n,3}(x) &amp;= \frac{x - t_n}{t_{n+2}-t_n} \cdot N_{n,2}(x) + \frac{t_{n+3} - x}{t_{n+3}-t_{n+1}} \cdot N_{n+1,2}(x)\\
+           &amp;= \frac{x - (n-3)}{(n-2) - (n-3)} \cdot N_{n,2}(x)\\
+           &amp;= (x - n + 3) \cdot \begin{dcases}
+                                  x - n + 3,       &amp; \textrm{if } n - 3 \leq x &lt; n - 2\\
+                                  0,               &amp; \textrm{otherwise}
+                                \end{dcases}\\
+           &amp;= \begin{dcases}
+                (x - n + 3) \cdot (x - n + 3),       &amp; \textrm{if } n - 3 \leq x &lt; n - 2\\
+                0,                                   &amp; \textrm{otherwise}
+              \end{dcases}\\
+           &amp;= \begin{dcases}
+                x^2 + (6 - 2n)x + n^2 - 6n + 9,       &amp; \textrm{if } n - 3 \leq x &lt; n - 2\\
+                0,                                    &amp; \textrm{otherwise}
+              \end{dcases}\\
+\end{align*}</text>
 </page>
 </ipe>
