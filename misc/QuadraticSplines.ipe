@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.4">
-<info created="D:20150729222736" modified="D:20150803215036"/>
+<info created="D:20150729222736" modified="D:20150805012755"/>
 <preamble>\usepackage{mathtools}</preamble>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">

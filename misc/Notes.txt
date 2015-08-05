@@ -29,6 +29,6 @@ CIE76 is fine, no need for the fancier ones like CIEDE2000.
  
 == B-Splines ==
 
-- The knots of a linear B-spline do not affect the resulting curve, only the "speed" at which a point traverses each section. (The curve is parametrized wrt some parameter t. The knots determine which t intervals map to which parts of the curve.)
+- The knots of a *linear* B-spline do not affect the resulting curve, only the "speed" at which a point traverses each section. (The curve is parametrized wrt some parameter t. The knots determine which t intervals map to which parts of the curve.)
 - We only care about the geometry, so we can use any knot sequence we want.
 - We can assume that a linear spline has knot vector [0, 0, 1/(n-1), 2/(n-1), ..., (n-2)/(n-1), 1, 1], where n is the number of control points
