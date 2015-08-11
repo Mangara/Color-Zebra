@@ -15,7 +15,7 @@
             }
             
             var context = canvas.getContext("2d"),
-                t;
+                t, x;
             
             // Draw the control points
             context.strokeStyle = "#0F0";
@@ -29,12 +29,24 @@
             for (t = 0; t < 1; t += 0.05) {
                 context.lineTo.apply(context, getSplineCoords(t));
             }
+            context.lineTo.apply(context, getSplineCoords(0.999));
             context.strokeStyle = "#000";
+            context.stroke();
+            
+            // Draw the second spline
+            context.beginPath();
+            for (x = 20; x <= 150; x += 5) {
+                var c = spline2.getColorForLightness(x);
+                console.log('x = ' + x + ' returned coordinates ' + c);
+                context.lineTo(c[0], 100 + c[1]);
+            }
+            context.strokeStyle = "#F00";
             context.stroke();
         }
         
-        var points = [ [20, 20], [50, 100], [60, 40], [100, 10], [110, 50], [150, 100] ];
+        var points = [ [20, 20, 0], [50, 100, 0], [60, 40, 0], [100, 10, 0], [110, 50, 0], [150, 100, 0] ];
         var knots = [0, 0, 0, 0.25, 0.5, 0.75, 1, 1, 1];
+        var spline2 = new ColorZebra.QuadraticSpline(points);
         
         function getSplineCoords(t) {
             //console.log('Evaluating t = ' + t);
