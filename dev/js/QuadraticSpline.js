@@ -36,7 +36,7 @@
             // Then it lies in interval [start - 1, start], which depends on p_{start}, p_{start+1}, and p_{start+2},
             // or in interval [start - 2, start - 1], which depends on p_{start-1}, p_{start}, and p_{start+1}
             
-            console.log(' Binary search finished: points[start][0] <= l <= points[start + 1][0]: ' + points[start][0] + ' <= ' + l + ' <= ' + points[start + 1][0]);
+            //console.log(' Binary search finished: points[start][0] <= l <= points[start + 1][0]: ' + points[start][0] + ' <= ' + l + ' <= ' + points[start + 1][0]);
             
             var sol = null;
             var intervalEnd;
@@ -44,16 +44,10 @@
             // Try the earlier interval first
             if (start > 1) {
                 sol = findLightnessInInterval(l, start - 1);
-                intervalEnd = start - 1;
-                
-                console.log(' Quadratic equation for interval ending at ' + intervalEnd + ' solved to ' + sol);
             }
 
             if (sol === null || sol.length === 0) {
                 sol = findLightnessInInterval(l, start);
-                intervalEnd = start;
-                
-                console.log(' Quadratic equation for interval ending at ' + intervalEnd + ' solved to ' + sol);
             }
             
             if (sol === null || sol.length === 0) {
@@ -64,34 +58,45 @@
             // We found the correct parameter value: now simply evaluate the spline
             var x = sol[0];
             
-            console.log(' Lightness ' + l + ' gave parameter ' + x);
+            //console.log(' Lightness ' + l + ' gave parameter ' + x);
             
             return getSplineCoords(x);
         }
         
         function findLightnessInInterval(l, intervalEnd) {
-            return solveQuadraticEquation(
+            var sol = solveQuadraticEquation(
                 coefficients[intervalEnd][0],
                 coefficients[intervalEnd][1],
                 coefficients[intervalEnd][2] - l);
+            
+            // Only return solutions in the knot-interval
+            return sol.filter(
+                function (value) {
+                    return (intervalEnd - 1) <= value && value <= intervalEnd;
+                }
+            );
         }
         
         function solveQuadraticEquation(a, b, c) {
-            var D = b * b - 4 * a * c;
-            
-            if (D < 0) {
-                return [];
-            } else if (D == 0) {
-                return [-b / (2 * a)];
-            } else {
-                var sqrtD = Math.sqrt(D);
-                console.log(' Solving ' + a + ' x^2 + ' + b + ' x + ' + c + ' = 0');
-                console.log(' D = ' + D + ' sqrt(D) = ' + sqrtD);
-                console.log(' Solutions: ' + [(-b - sqrtD) / (2 * a), (-b + sqrtD) / (2 * a)]);
-                
-                if (a < 0) {
-                    return [(-b + sqrtD) / (2 * a), (-b - sqrtD) / (2 * a)];
+            if (a === 0) {
+                if (b === 0) {
+                    return [];
                 } else {
+                    return [-c / b];
+                }
+            } else {            
+                var D = b * b - 4 * a * c;
+                
+                if (D < 0) {
+                    return [];
+                } else if (D == 0) {
+                    return [-b / (2 * a)];
+                } else {
+                    var sqrtD = Math.sqrt(D);
+                    //console.log(' Solving ' + a + ' x^2 + ' + b + ' x + ' + c + ' = 0');
+                    //console.log(' D = ' + D + ' sqrt(D) = ' + sqrtD);
+                    //console.log(' Solutions: ' + [(-b - sqrtD) / (2 * a), (-b + sqrtD) / (2 * a)]);
+                    
                     return [(-b - sqrtD) / (2 * a), (-b + sqrtD) / (2 * a)];
                 }
             }
@@ -130,28 +135,26 @@
         function getSplineCoords(t) {
             var sum = [0, 0, 0];
             
-            for (var i = 1; i < n + 1; i++) {
-                var b = basis(i - 1, 3, t);
-                sum[0] += points[i][0] * b;
-                sum[1] += points[i][1] * b;
-                sum[2] += points[i][2] * b;
+            for (var i = 0, max = controlPoints.length; i < max; i++) {
+                var b = basis(i, 3, t);
+                sum[0] += controlPoints[i][0] * b;
+                sum[1] += controlPoints[i][1] * b;
+                sum[2] += controlPoints[i][2] * b;
             }
             
             return sum;
         }
         
         var knots = [];
-        var i;
+        var k;
         
-        knots[0] = knots[1] = knots[2] = 0;
-        
-        for (i = 0; i < n + 3; i++) {
-            if (i < 3) {
-                knots[i] = 0;
-            } else if (i > n) {
-                knots[i] = n - 2;
+        for (k = 0; k < n + 3; k++) {
+            if (k < 2) {
+                knots[k] = 0;
+            } else if (k > n) {
+                knots[k] = n - 2;
             } else {
-                knots[i] = i - 3;
+                knots[k] = k - 2;
             }
         }
         

@@ -8,7 +8,7 @@
         this.maximize = function() {
             var parent = $(canvas).parent();
             canvas.width = parent.width();
-            canvas.height = parent.height();
+            canvas.height = parent.height() - 4; // No clue why the -4 is necessary.
         }
         
         this.draw = function() {
@@ -120,7 +120,7 @@
         
         
         
-        var map = new ColorZebra.ColorMap([
+        var map1 = new ColorZebra.ColorMap([
             [30, 45.838, -76.288], // 30 ch2ab(89, -59)
             [60, 0, 0],           // 60 0 0
             [90, -9.3030, 88.5124]  // 90 ch2ab(89,96)
@@ -130,8 +130,18 @@
         //    theta = angle_degrees/180*pi;
         //    ab = chroma*[cos(theta) sin(theta)];
         
+        var map2 = new ColorZebra.ColorMap([
+            [15, 50, -65],
+            [35, 67, -100],
+            [45, -14, -30],
+            [60, -55, 60],
+            [85, -10, 80],
+            [95, -17, 50],
+            [100, 0, 0]
+        ], 3);
+        
         function getColor(value) {
-            return map.getCSSColor(value);
+            return map2.getCSSColor(value);
             
             /*var l = 30 + value * 60;
             var color = map.getColorForLightness(l);

@@ -35,7 +35,7 @@
             
             // Draw the second spline
             context.beginPath();
-            for (x = 20; x <= 150; x += 5) {
+            for (x = 20; x <= 150; x += 1) {
                 var c = spline2.getColorForLightness(x);
                 console.log('x = ' + x + ' returned coordinates ' + c);
                 context.lineTo(c[0], 100 + c[1]);
@@ -54,6 +54,7 @@
             
             for (var i = 0, max = points.length; i < max; i++) {
                 var b = basis(i, 3, t);
+                console.log(' Basis(' + i + ', 3, ' + t + ') = ' + b);
                 sum[0] += points[i][0] * b;
                 sum[1] += points[i][1] * b;
                 //console.log('  Basis ' + i + ' = ' + b + '. Resulting contribution: (' + (points[i][0] * b) + ', ' +  (points[i][1] * b) + ').');
