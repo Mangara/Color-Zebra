@@ -1,5 +1,8 @@
 (function( ColorZebra, $, undefined ) {
-    ColorZebra.ColorMap = function(controlPoints, splineOrder) {
+    ColorZebra.ColorMap = function(name, description, controlPoints, splineOrder) {
+        this.name = name;
+        this.description = description;
+        
         var points = controlPoints;
         var spline;
         
