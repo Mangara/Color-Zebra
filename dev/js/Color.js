@@ -68,6 +68,11 @@
         var c = new ColorZebra.Color(cielab);
         return c.toCSSColor();
     }
+    
+    ColorZebra.Color.LCHtoLAB = function(l, c, h) {
+        var theta = Math.PI * h / 180;
+        return [l, Math.cos(theta), Math.sin(theta)]
+    }
 
     ColorZebra.Color.test = function() {
         // First 10 RGB values randomly generated from random.org, then added all (0, 255)-combinations

@@ -15,15 +15,29 @@
             
             ColorZebra.Color.test();*/
             
+            fillDropdown();
             assignActionHandlers();
         });
     }
     
+    // Adds all color maps to the dropdown
+    function fillDropdown() {
+        var select = $('<select>');
+        $.each(ColorZebra.colorMaps, function(colorMapName, colorMap) {
+            select.append(
+                $('<option></option>').html(colorMapName) /*.val(colorMap)*/
+            );
+        });
+        $('#colormap-select-container').append('<select id="colormap-select">' + select.html() + '</select>');
+    }
+    
     // Assign all action handlers at startup
     function assignActionHandlers() {
-        $('#ch_hue').click(function() {
-            ColorZebra.mainPreview.changeHue();
+        $('#colormap-select').change(function() {
+            ColorZebra.mainPreview.setColorMap(ColorZebra.colorMaps[$('#colormap-select').val()]);
             ColorZebra.mainPreview.draw();
+            
+            console.log('Change triggered with: ' + $('#colormap-select').val());
         });
         
         // Make our canvases respond to window resizing

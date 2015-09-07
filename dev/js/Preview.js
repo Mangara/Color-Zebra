@@ -120,7 +120,7 @@
         
         
         
-        var map1 = new ColorZebra.ColorMap([
+        var map1 = new ColorZebra.ColorMap("Test", "Test", [
             [30, 45.838, -76.288], // 30 ch2ab(89, -59)
             [60, 0, 0],           // 60 0 0
             [90, -9.3030, 88.5124]  // 90 ch2ab(89,96)
@@ -130,7 +130,7 @@
         //    theta = angle_degrees/180*pi;
         //    ab = chroma*[cos(theta) sin(theta)];
         
-        var map2 = new ColorZebra.ColorMap([
+        var map2 = new ColorZebra.ColorMap("Test", "Test", [
             [15, 50, -65],
             [35, 67, -100],
             [45, -14, -30],
@@ -140,14 +140,20 @@
             [100, 0, 0]
         ], 3);
         
+        var colorMap = map2;
+        
         function getColor(value) {
-            return map2.getCSSColor(value);
+            return colorMap.getCSSColor(value);
             
             /*var l = 30 + value * 60;
             var color = map.getColorForLightness(l);
             var rgb = ColorZebra.Color.LABtoRGB(color);
             console.log('Value: ' + value + ' L: ' + l + ' color: ' + color + ' rgb: ' + rgb);
             return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";*/
+        }
+        
+        this.setColorMap = function(newColorMap) {
+            colorMap = newColorMap;
         }
     }
 }( window.ColorZebra = window.ColorZebra || {}, jQuery ));

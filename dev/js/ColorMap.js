@@ -4,13 +4,7 @@
         this.description = description;
         
         var points = controlPoints;
-        var spline;
-        
-        if (splineOrder == 2) {
-            spline = new ColorZebra.LinearSpline(controlPoints);
-        } else if (splineOrder == 3) {
-            spline = new ColorZebra.QuadraticSpline(controlPoints);
-        }
+        var spline = (splineOrder === 2 ? new ColorZebra.LinearSpline(controlPoints) : new ColorZebra.QuadraticSpline(controlPoints));
         
         this.getCSSColor = function(value) {
             return ColorZebra.Color.LABtoCSS(spline.getColorForLightness(normalizeLightness(value)));
