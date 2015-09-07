@@ -71,10 +71,10 @@
     
     ColorZebra.Color.LCHtoLAB = function(l, c, h) {
         var theta = Math.PI * h / 180;
-        return [l, Math.cos(theta), Math.sin(theta)]
+        return [l, c * Math.cos(theta), c * Math.sin(theta)]
     }
 
-    ColorZebra.Color.test = function() {
+    ColorZebra.Color.testLABtoRGB = function() {
         // First 10 RGB values randomly generated from random.org, then added all (0, 255)-combinations
         // CIELAB and XYZ color values from colorhexa.com
         var cielab = [ [59.653, 37.295, -58.801], [43.843, 50.226, -75.636], [37.15, 37.831, -75.353], [72.702, -68.674, 51.87], [65.978, 7.656, -52.21], [11.76, 26.804, -20.84], [34.274, 67.411, -86.313], [53.807, 79.294, -27.645], [82.057, -66.64, 65.042], [53.738, 70.077, 48.852], [0, 0, 0], [100, -0, -0.009], [53.239, 80.09, 67.201], [87.735, -86.183, 83.18], [32.299, 79.191, -107.865], [97.139, -21.558, 94.477], [60.324, 98.235, -60.835], [91.114, -48.083, -14.139] ];
@@ -118,6 +118,32 @@
 
         console.log(passed + ' tests passed.');
 
+        function round(t) {
+            return Math.round(10000 * t)/10000;
+        }
+    }
+    
+    ColorZebra.Color.testLCHtoLAB = function() {
+        var lch = [ [30, 89, -59], [90, 89, 96] ];
+        var lab = [ [30, 45.8384, -76.2879], [90, -9.3030, 88.5124] ];
+        
+        var passed = 0;
+
+        console.log('Testing LCH to LAB color conversions.');
+
+        for (var i = 0, max = lch.length; i < max; i++) {
+            var expected = lab[i];
+            var result = ColorZebra.Color.LCHtoLAB(lch[i][0], lch[i][1], lch[i][2]);
+
+            if (round(expected[0]) === round(result[0]) && round(expected[1]) === round(result[1]) && round(expected[2]) === round(result[2])) {
+                passed++;
+            } else {
+                console.log('Test ' + i + ' failed: Color ' + lch[i] + ' converted to ' + result + ', where ' + expected + ' was expected.');
+            }
+        }
+
+        console.log(passed + ' tests passed.');
+        
         function round(t) {
             return Math.round(10000 * t)/10000;
         }
