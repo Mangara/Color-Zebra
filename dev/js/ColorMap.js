@@ -6,8 +6,12 @@
         var points = controlPoints;
         var spline = (splineOrder === 2 ? new ColorZebra.LinearSpline(controlPoints) : new ColorZebra.QuadraticSpline(controlPoints));
         
+        this.getLABColor = function(value) {
+            return spline.getColorForLightness(normalizeLightness(value));
+        }
+        
         this.getCSSColor = function(value) {
-            return ColorZebra.Color.LABtoCSS(spline.getColorForLightness(normalizeLightness(value)));
+            return ColorZebra.Color.LABtoCSS(this.getLABColor(value));
         }
         
         function normalizeLightness(value) {

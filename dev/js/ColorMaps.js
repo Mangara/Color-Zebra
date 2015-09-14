@@ -142,11 +142,11 @@
         'Water' : new ColorZebra.ColorMap(
             'Water',
             'A water depth colour map',
-            [ [95, 0, 0],
-              ColorZebra.Color.LCHtoLAB(80, 20, -95),
-              ColorZebra.Color.LCHtoLAB(70, 25, -95),
+            [ ColorZebra.Color.LCHtoLAB(50, 35, -95),
               ColorZebra.Color.LCHtoLAB(60, 25, -95),
-              ColorZebra.Color.LCHtoLAB(50, 35, -95) ],
+              ColorZebra.Color.LCHtoLAB(70, 25, -95),
+              ColorZebra.Color.LCHtoLAB(80, 20, -95),
+              [95, 0, 0] ],
             3
          )
     }

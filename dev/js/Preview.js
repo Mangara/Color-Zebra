@@ -1,12 +1,7 @@
 (function( ColorZebra, $, undefined ) {
     ColorZebra.Preview = function(theCanvas) {
         var canvas = theCanvas;
-        var colorMap = ColorZebra.colorMaps['Lake'];
         var PI_BY_FOUR = Math.PI / 4;
-        
-        this.setColorMap = function(newColorMap) {
-            colorMap = newColorMap;
-        }
         
         this.maximize = function() {
             var parent = $(canvas).parent();
@@ -49,7 +44,7 @@
                     var yt = y / STEPS;
                     var amp = 0.05 * yt * yt;
                     var val = amp * sinVal + getRamp(xt, amp);
-                    my_gradient.addColorStop(1 - yt, colorMap.getCSSColor(val));
+                    my_gradient.addColorStop(1 - yt, ColorZebra.colorMap.getCSSColor(val));
                 }
                 
                 context.fillStyle = my_gradient;
