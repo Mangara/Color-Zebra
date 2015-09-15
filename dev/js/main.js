@@ -14,75 +14,68 @@
             ColorZebra.fixedNumPreview.maximize();
             ColorZebra.fixedNumPreview.draw();
             
+            // Create all thumbnails
             $('#colormaps>canvas').each(function() {
                 var map = ColorZebra.colorMaps[this.id];
                 map.canvas = new ColorZebra.CMapDrawer(this, map);
+                
+                if (map === ColorZebra.colorMap) {
+                    map.canvas.setDesaturate(false);
+                }
+                
                 map.canvas.draw();
                 
                 this.title = map.description;
             });
             
-            $('#colormaps>canvas').click(function() {
-                var map = ColorZebra.colorMaps[this.id];
-                
-                if (ColorZebra.colorMap !== map) {
-                    // Saturate the thumbnail
-                    map.canvas.setDesaturate(false);
-                    map.canvas.draw();
-                    
-                    // Desaturate the current thumbnail
-                    ColorZebra.colorMap.canvas.setDesaturate(true);
-                    ColorZebra.colorMap.canvas.draw();
-                    
-                    // Switch maps
-                    ColorZebra.colorMap = map;
-                    
-                    // Redraw stuff
-                    ColorZebra.mainPreview.draw();
-                    ColorZebra.fixedNumPreview.draw();
-                }
-            });
-            
-            $('#colormaps>canvas').hover(function() {
-                var map = ColorZebra.colorMaps[this.id];
-                
-                // Saturate the thumbnail
-                map.canvas.setDesaturate(false);
-                map.canvas.draw();
-            },
-            function() {
-                var map = ColorZebra.colorMaps[this.id];
-                
-                // Desaturate the thumbnail
-                if (ColorZebra.colorMap !== map) {
-                    map.canvas.setDesaturate(true);
-                    map.canvas.draw();
-                }
-            });
-            
-            fillDropdown();
             assignActionHandlers();
         });
     }
     
-    // Adds all color maps to the dropdown
-    function fillDropdown() {
-        var select = $('<select>');
-        $.each(ColorZebra.colorMaps, function(colorMapName, colorMapObject) {
-            select.append(
-                $('<option' + (colorMapObject === ColorZebra.colorMap ? ' selected' : '') + '></option>').html(colorMapName)
-            );
-        });
-        $('#colormap-select-container').append('<select id="colormap-select">' + select.html() + '</select>');
-    }
-    
     // Assign all action handlers at startup
     function assignActionHandlers() {
-        $('#colormap-select').change(function() {
-            ColorZebra.colorMap = ColorZebra.colorMaps[$('#colormap-select').val()];
+        $('#colormaps>canvas').click(function() {
+            var map = ColorZebra.colorMaps[this.id];
             
-            ColorZebra.mainPreview.draw();
-            ColorZebra.fixedNumPreview.draw();
+            if (ColorZebra.colorMap !== map) {
+                // Saturate the thumbnail
+                map.canvas.setDesaturate(false);
+                map.canvas.draw();
+                
+                // Desaturate the current thumbnail
+                ColorZebra.colorMap.canvas.setDesaturate(true);
+                ColorZebra.colorMap.canvas.draw();
+                
+                // Switch maps
+                ColorZebra.colorMap = map;
+                
+                // Redraw stuff
+                ColorZebra.mainPreview.draw();
+                ColorZebra.fixedNumPreview.draw();
+            }
+        });
+        
+        $('#colormaps>canvas').hover(function() {
+            var map = ColorZebra.colorMaps[this.id];
+            
+            this.style.height = '4.5em';
+            this.style.margin = '0.75em 1em';
+            
+            // Saturate the thumbnail
+            map.canvas.setDesaturate(false);
+            map.canvas.draw();
+        },
+        function() {
+            var map = ColorZebra.colorMaps[this.id];
+            
+            this.style.height = '4em';
+            this.style.margin = '1em';
+            
+            // Desaturate the thumbnail
+            if (ColorZebra.colorMap !== map) {
+                map.canvas.setDesaturate(true);
+                map.canvas.draw();
+            }
         });
         
         $('#fixednum-apply').click(function() {
