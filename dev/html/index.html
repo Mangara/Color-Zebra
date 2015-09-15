@@ -8,6 +8,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         
         <!-- My JS files -->
+        <script src="../js/CMapDrawer.js"></script>
+        
         <script src="../js/Preview.js"></script>
         <script src="../js/FixedNumPreview.js"></script>
         <script src="../js/LinearSpline.js"></script>
@@ -23,43 +25,61 @@
         </script>
     </head>
     <body>
-        <div id="header">
+        <header>
             <h1>Color Zebra</h1>
             <span class="subtitle">&mdash; Beautiful perceptual colormaps for scientific visualization</span>
-        </div>
-        <div id="preview-container">
+        </header>
+        
+        <section id="preview-container">
             <canvas id="preview"></canvas>
-        </div>
+        </section>
         
-        <div id="controls">
-            <div id="colormap-select-container">
+        <section id="colormaps">
+            <canvas id="Glow"></canvas>
+            <canvas id="Fern"></canvas>
+            <canvas id="Sky"></canvas>
+            <canvas id="Twilight"></canvas>
+            <canvas id="Sunrise"></canvas>
+            <canvas id="Lake"></canvas>
+            <canvas id="Dawn"></canvas>
+            <canvas id="Water"></canvas>
+        
+            <!--
+            <div id="colormap-select-container"></div>
+            -->
+        </section>
+        
+        <section id="export">
+            <h2>Download</h2>
+            <div id="fixednum-preview-container">
+                <canvas id="fixednum-preview"></canvas>
             </div>
-            <input id="numcolors" type="number" min="2" value="12">
-            <button id="fixednum-apply">Apply</button>
-        </div>
+            <div id="controls">
+                <input id="numcolors" type="number" min="2" value="12">
+                <button id="fixednum-apply">Apply</button>
+            </div>
+            <div id="download">
+                <span>Download:</span>
+                <a id="download-csv-int" download="colormap.csv">Integer CSV</a>
+                <a id="download-csv-float" download="colormap.csv">Float CSV</a>
+                <a id="download-ipe" download="colormap.isy">IPE-style</a>
+                <!-- <a id="download-css" download="colormap.css">CSS</a> -->
+            </div>
+        </section>
         
-        <div id="fixednum-preview-container">
-            <canvas id="fixednum-preview"></canvas>
-        </div>
-        
-        <div id="download">
-            <span>Download:</span>
-            <a id="download-csv" download="colormap.csv">CSV</a>
-            <a id="download-ipe" download="colormap.isy">IPE-style</a>
-            <!-- <a id="download-css" download="colormap.css">CSS</a> -->
-        </div>
-        
-        <div id="acknowledgments">
-            <p>Color Zebra is based on research by</p>
-            <p id="attribution-address">
-                CET Perceptually Uniform Colour Maps<br>
-                Peter Kovesi<br>
-                Centre for Exploration Targeting<br>
-                School of Earth and Environment<br>
-                The University of Western Australia<br>
-                <a href="http://www.cet.edu.au/research-projects/colourmaps">www.cet.edu.au/research-projects/colourmaps</a><br>
-                Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
-            </p>
-        </div>
+        <footer>
+            <div id="acknowledgments">
+                <p>Color Zebra is based on research by</p>
+                <p id="attribution-address">
+                    CET Perceptually Uniform Colour Maps<br>
+                    Peter Kovesi<br>
+                    Centre for Exploration Targeting<br>
+                    School of Earth and Environment<br>
+                    The University of Western Australia<br>
+                    <a href="http://www.cet.edu.au/research-projects/colourmaps">www.cet.edu.au/research-projects/colourmaps</a><br>
+                    Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+                </p>
+            </div>
+        </footer>
     </body>
 </html>

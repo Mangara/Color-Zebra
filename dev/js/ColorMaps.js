@@ -116,8 +116,8 @@
             3
          ),
         
-        'Dawn' : new ColorZebra.ColorMap(
-            'Dawn',
+        'Morning Mist' : new ColorZebra.ColorMap(
+            'Morning Mist',
             'A geographical colour map, best used with relief shading',
             [ ColorZebra.Color.LCHtoLAB(60, 20, 180),
               ColorZebra.Color.LCHtoLAB(65, 30, 135),
@@ -128,8 +128,8 @@
             3
          ),
         
-        'Morning Mist' : new ColorZebra.ColorMap(
-            'Morning Mist',
+        'Dawn' : new ColorZebra.ColorMap(
+            'Dawn',
             'A more saturated geographical colour map, best used with relief shading',
             [ ColorZebra.Color.LCHtoLAB(65, 50, 135),
               ColorZebra.Color.LCHtoLAB(75, 45, 75),

@@ -35,7 +35,7 @@
                 height = canvas.height;
                         
             for (x = 0; x < width; x++) {
-                var xt = x / width; // x mapped to [0, 1]
+                var xt = x / (width - 1); // x mapped to [0, 1]
                 var sinVal = Math.sin(x * PI_BY_FOUR);
                 
                 var my_gradient = context.createLinearGradient(0, 0, 0, height);

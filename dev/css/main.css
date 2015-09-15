@@ -1,13 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat|Poly);
 
 body {
-    font-family: Roboto;
+    font-family: Poly;
     font-size: 112.5%; /* 18px if the browser default is 16px */
     line-height: 140%;
     margin: 0;
 }
 
-#header {
+header {
+    display: block;
     height: 5em;
     margin: 0 4em;
 }
@@ -21,16 +22,40 @@ h1 {
     color: #222;
 }
 
+h2 {
+    font-family: Montserrat;
+    color: #222;
+}
+
 .subtitle {
     font-family: Poly;
     font-style: italic;
     font-size: 1.2em;
 }
 
+section {
+    display: block;
+}
+
 canvas {
     width: 100%;
     border: 1px solid #333;
     border-width: 1px 0px; /* Turn off left and right borders */
+}
+
+#colormaps {
+    margin-top: 2em;
+    padding: 1em;
+    text-align: center;
+}
+
+#colormaps>canvas {
+    width: 20%;
+    height: 4em;
+    border: 0;
+    border-radius: 0.3em;
+    margin: 1em;
+    cursor: pointer;
 }
 
 #preview-container {

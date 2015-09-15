@@ -34,11 +34,21 @@
             
             // Convert to RGB. Formulas and numbers from Wikipedia:
             // https://en.wikipedia.org/wiki/SRGB#The_forward_transformation_.28CIE_xyY_or_CIE_XYZ_to_sRGB.29
-            var R = Math.round(255 * correctGamma( 3.2406 * xyz[0] - 1.5372 * xyz[1] - 0.4986 * xyz[2]));
-            var G = Math.round(255 * correctGamma(-0.9689 * xyz[0] + 1.8758 * xyz[1] + 0.0415 * xyz[2]));
-            var B = Math.round(255 * correctGamma( 0.0557 * xyz[0] - 0.2040 * xyz[1] + 1.0570 * xyz[2]));
+            var R = correctGamma( 3.2406 * xyz[0] - 1.5372 * xyz[1] - 0.4986 * xyz[2]);
+            var G = correctGamma(-0.9689 * xyz[0] + 1.8758 * xyz[1] + 0.0415 * xyz[2]);
+            var B = correctGamma( 0.0557 * xyz[0] - 0.2040 * xyz[1] + 1.0570 * xyz[2]);
+            
+            // Clamp out-of-gamut colors
+            R = Math.max(0, Math.min(1, R));
+            G = Math.max(0, Math.min(1, G));
+            B = Math.max(0, Math.min(1, B));
             
             return [R, G, B];
+        }
+        
+        this.toIntegerRGB = function() {
+            rgb = this.toRGB();            
+            return [Math.round(255 * rgb[0]), Math.round(255 * rgb[1]), Math.round(255 * rgb[2])];
         }
         
         function correctGamma(t) {
@@ -50,18 +60,25 @@
         }
         
         this.toCSSColor = function() {
-            var rgb = this.toRGB();
+            var rgb = this.toIntegerRGB();
             return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
         }
+        
+        this.desaturate = function() {
+            a /= 3;
+            b /= 3;
+            return this;
+        }
     }
-    
-    /* ColorZebra.Color.fromRGB = function(rgb) {
-        // Maybe necessary?
-    } */
     
     ColorZebra.Color.LABtoRGB = function(cielab) {
         var c = new ColorZebra.Color(cielab);
         return c.toRGB();
+    }
+    
+    ColorZebra.Color.LABtoIntegerRGB = function(cielab) {
+        var c = new ColorZebra.Color(cielab);
+        return c.toIntegerRGB();
     }
     
     ColorZebra.Color.LABtoCSS = function(cielab) {
@@ -107,7 +124,7 @@
 
         for (var i = 0, max = cielab.length; i < max; i++) {
             var expected = rgb[i];
-            var result = ColorZebra.Color.LABtoRGB(cielab[i]);
+            var result = ColorZebra.Color.LABtoIntegerRGB(cielab[i]);
 
             if (expected[0] === result[0] && expected[1] === result[1] && expected[2] === result[2]) {
                 passed++;

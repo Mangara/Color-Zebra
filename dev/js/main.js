@@ -14,6 +14,52 @@
             ColorZebra.fixedNumPreview.maximize();
             ColorZebra.fixedNumPreview.draw();
             
+            $('#colormaps>canvas').each(function() {
+                var map = ColorZebra.colorMaps[this.id];
+                map.canvas = new ColorZebra.CMapDrawer(this, map);
+                map.canvas.draw();
+                
+                this.title = map.description;
+            });
+            
+            $('#colormaps>canvas').click(function() {
+                var map = ColorZebra.colorMaps[this.id];
+                
+                if (ColorZebra.colorMap !== map) {
+                    // Saturate the thumbnail
+                    map.canvas.setDesaturate(false);
+                    map.canvas.draw();
+                    
+                    // Desaturate the current thumbnail
+                    ColorZebra.colorMap.canvas.setDesaturate(true);
+                    ColorZebra.colorMap.canvas.draw();
+                    
+                    // Switch maps
+                    ColorZebra.colorMap = map;
+                    
+                    // Redraw stuff
+                    ColorZebra.mainPreview.draw();
+                    ColorZebra.fixedNumPreview.draw();
+                }
+            });
+            
+            $('#colormaps>canvas').hover(function() {
+                var map = ColorZebra.colorMaps[this.id];
+                
+                // Saturate the thumbnail
+                map.canvas.setDesaturate(false);
+                map.canvas.draw();
+            },
+            function() {
+                var map = ColorZebra.colorMaps[this.id];
+                
+                // Desaturate the thumbnail
+                if (ColorZebra.colorMap !== map) {
+                    map.canvas.setDesaturate(true);
+                    map.canvas.draw();
+                }
+            });
+            
             fillDropdown();
             assignActionHandlers();
         });
@@ -44,12 +90,16 @@
             ColorZebra.fixedNumPreview.draw();
         });
         
-        $('#download-csv').click(function() {
-            download($('#download-csv')[0], 'csv', ColorZebra.exportCSV());
+        $('#download-csv-int').click(function() {
+            download(this, 'csv', ColorZebra.exportIntegerCSV());
+        });
+        
+        $('#download-csv-float').click(function() {
+            download(this, 'csv', ColorZebra.exportFloatCSV());
         });
         
         $('#download-ipe').click(function() {
-            download($('#download-ipe')[0], 'plain', ColorZebra.exportIPE());
+            download(this, 'plain', ColorZebra.exportIPE());
         });
         
         /* $('#download-css').click(function() {
