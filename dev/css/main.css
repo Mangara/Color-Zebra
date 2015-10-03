@@ -67,7 +67,6 @@ canvas {
     height: 4.5em;
     margin: 0.75em 1em;
     border: 1px solid #333;
-    /* box-shadow: 0px 0px 4px 1px #000; */
 }
 
 #preview-container {
@@ -76,10 +75,6 @@ canvas {
 
 #fixednum-preview-container {
     height: 4em;
-}
-
-#colormap-select-container {
-    display: inline;
 }
 
 #acknowledgments {

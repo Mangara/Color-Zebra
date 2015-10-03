@@ -52,6 +52,28 @@
             }
         }
         
+        function drawQuadratic() {
+            // Super-slow way of drawing the test image, for performance comparison
+            
+            var context = canvas.getContext("2d"),
+                x, y,
+                width = canvas.width,
+                height = canvas.height;
+                        
+            for (x = 0; x < width; x++) {
+                var xt = x / (width - 1); // x mapped to [0, 1]
+                var sinVal = Math.sin(x * PI_BY_FOUR);
+                
+                for (y = 0; y < height; y++) {
+                    var yt = (height - y) / (height - 1);
+                    var amp = 0.05 * yt * yt;
+                    var val = amp * sinVal + getRamp(xt, amp);
+                    context.fillStyle = ColorZebra.colorMap.getCSSColor(val);
+                    context.fillRect(x, y, 1, 1);
+                }
+            }
+        }
+        
         function getRamp(xt, amp) {
             return amp + (1 - 2 * amp) * xt;
         }

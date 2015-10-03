@@ -36,68 +36,62 @@
             // Then it lies in interval [start - 1, start], which depends on p_{start}, p_{start+1}, and p_{start+2},
             // or in interval [start - 2, start - 1], which depends on p_{start-1}, p_{start}, and p_{start+1}
             
-            //console.log(' Binary search finished: points[start][0] <= l <= points[start + 1][0]: ' + points[start][0] + ' <= ' + l + ' <= ' + points[start + 1][0]);
-            
             var sol = null;
             var intervalEnd;
             
             // Try the earlier interval first
             if (start > 1) {
                 sol = findLightnessInInterval(l, start - 1);
+                intervalEnd = start - 1;
             }
 
-            if (sol === null || sol.length === 0) {
+            if (sol === null) {
                 sol = findLightnessInInterval(l, start);
-            }
-            
-            if (sol === null || sol.length === 0) {
-                console.log('Error: no point on spline found with lightness ' + l);
-                return null;
+                intervalEnd = start;
             }
             
             // We found the correct parameter value: now simply evaluate the spline
-            var x = sol[0];
-            
-            //console.log(' Lightness ' + l + ' gave parameter ' + x);
-            
-            return getSplineCoords(x);
+            var deboor = deBoor(sol, intervalEnd);
+            return [l, deboor[0], deboor[1]];
         }
         
         function findLightnessInInterval(l, intervalEnd) {
-            var sol = solveQuadraticEquation(
-                coefficients[intervalEnd][0],
-                coefficients[intervalEnd][1],
-                coefficients[intervalEnd][2] - l);
-            
-            // Only return solutions in the knot-interval
-            return sol.filter(
-                function (value) {
-                    return (intervalEnd - 1) <= value && value <= intervalEnd;
-                }
-            );
-        }
-        
-        function solveQuadraticEquation(a, b, c) {
+            var a = coefficients[intervalEnd][0],
+                b = coefficients[intervalEnd][1],
+                c = coefficients[intervalEnd][2] - l,
+                sol;
+                
             if (a === 0) {
                 if (b === 0) {
-                    return [];
+                    return null;
                 } else {
-                    return [-c / b];
+                    return nullIfNotInInterval(-c / b);
                 }
-            } else {            
+            } else {
                 var D = b * b - 4 * a * c;
                 
                 if (D < 0) {
-                    return [];
+                    return null;
                 } else if (D == 0) {
-                    return [-b / (2 * a)];
+                    return nullIfNotInInterval(-b / (2 * a));
                 } else {
                     var sqrtD = Math.sqrt(D);
-                    //console.log(' Solving ' + a + ' x^2 + ' + b + ' x + ' + c + ' = 0');
-                    //console.log(' D = ' + D + ' sqrt(D) = ' + sqrtD);
-                    //console.log(' Solutions: ' + [(-b - sqrtD) / (2 * a), (-b + sqrtD) / (2 * a)]);
+                    var sol = nullIfNotInInterval((-b - sqrtD) / (2 * a));
                     
-                    return [(-b - sqrtD) / (2 * a), (-b + sqrtD) / (2 * a)];
+                    if (sol === null) {
+                        return nullIfNotInInterval((-b + sqrtD) / (2 * a));
+                    } else {
+                        return sol;
+                    }
+                }
+            }
+            
+            // Only return solutions in the knot-interval
+            function nullIfNotInInterval(sol) {
+                if ((intervalEnd - 1) <= sol && sol <= intervalEnd) {
+                    return sol;
+                } else {
+                    return null;
                 }
             }
         }
@@ -132,19 +126,6 @@
             return c;
         }
         
-        function getSplineCoords(t) {
-            var sum = [0, 0, 0];
-            
-            for (var i = 0, max = controlPoints.length; i < max; i++) {
-                var b = basis(i, 3, t);
-                sum[0] += controlPoints[i][0] * b;
-                sum[1] += controlPoints[i][1] * b;
-                sum[2] += controlPoints[i][2] * b;
-            }
-            
-            return sum;
-        }
-        
         var knots = [];
         var k;
         
@@ -158,27 +139,34 @@
             }
         }
         
-        function basis(i, k, t) {
-            var result;
-            
-            if (k === 1) {
-                if (knots[i] <= t && t < knots[i + 1]) {
-                    result = 1;
-                } else {
-                    result = 0;
-                }
+        function deBoor(t, k) {
+            if (knots[k + 3] != knots[k + 1]) {
+                var a21 = (t - knots[k + 1]) / (knots[k + 3] - knots[k + 1]);
             } else {
-                result = 0;
-                
-                if (knots[i + k - 1] != knots[i]) {
-                    result += ((t - knots[i]) / (knots[i + k - 1] - knots[i])) * basis(i, k - 1, t);
-                }
-                if (knots[i + k] != knots[i + 1]) {
-                    result += ((knots[i + k] - t) / (knots[i + k] - knots[i + 1])) * basis(i + 1, k - 1, t);
-                }
+                var a21 = 0;
             }
             
-            return result;
+            if (knots[k + 2] != knots[k]) {
+                var a11 = (t - knots[k]) / (knots[k + 2] - knots[k]);
+            } else {
+                var a11 = 0;
+            }
+            
+            var p21a = (1 - a21) * points[k+1][1] + a21 * points[k+2][1];
+            var p21b = (1 - a21) * points[k+1][2] + a21 * points[k+2][2];
+            var p11a = (1 - a11) * points[k][1] + a11 * points[k+1][1];
+            var p11b = (1 - a11) * points[k][2] + a11 * points[k+1][2];
+            
+            if (knots[k + 2] != knots[k + 1]) {
+                var a22 = (t - knots[k + 1]) / (knots[k + 2] - knots[k + 1]);
+            } else {
+                var a22 = 0;
+            }
+            
+            return [
+                (1 - a22) * p11a + a22 * p21a,
+                (1 - a22) * p11b + a22 * p21b
+            ];
         }
     }
 }( window.ColorZebra = window.ColorZebra || {}, jQuery ));

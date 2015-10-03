@@ -1,25 +1,21 @@
 (function( ColorZebra, $, undefined ) {
-    ColorZebra.Color = function(cielab) {
-        var lightness = cielab[0];
-        var a = cielab[1];
-        var b = cielab[2];
-        
-        // Conversion constants (illuminant D65)
-        var Xn = 0.95047;
-        var Yn = 1;
-        var Zn = 1.08883;
-        
-        this.toXYZ = function() {
-            // Convert to CIEXYZ. Formulas and numbers from Wikipedia:
-            // https://en.wikipedia.org/wiki/Lab_color_space
-            var fY = 0.00862068965 * (lightness + 16);
-            var X = Xn * f_inverse(fY + 0.002 * a);
-            var Y = Yn * f_inverse(fY);
-            var Z = Zn * f_inverse(fY - 0.005 * b);
+    ColorZebra.Color = function() {}
+    
+    ColorZebra.Color.desaturateLAB = function(cielab) {
+        return [cielab[0], cielab[1] / 3, cielab[2] / 3];
+    }
+    
+    ColorZebra.Color.LABtoXYZ = function(cielab) {
+        // Convert to CIEXYZ. Formulas and numbers from Wikipedia:
+        // https://en.wikipedia.org/wiki/Lab_color_space
+        // Using conversion constants corresponding to illuminant D65
+        var fY = 0.00862068965 * (cielab[0] + 16);
+        var X = 0.95047 * f_inverse(fY + 0.002 * cielab[1]);
+        var Y =           f_inverse(fY);
+        var Z = 1.08883 * f_inverse(fY - 0.005 * cielab[2]);
 
-            return [X, Y, Z];
-        }
-
+        return [X, Y, Z];
+        
         function f_inverse(t) {
             if (t > 0.20689655172) {
                 return Math.pow(t, 3);
@@ -27,29 +23,24 @@
                 return 0.12841854934 * (t - 0.13793103448);
             }
         }
-
-        this.toRGB = function() {
-            // Convert to CIEXYZ
-            xyz = this.toXYZ();
-            
-            // Convert to RGB. Formulas and numbers from Wikipedia:
-            // https://en.wikipedia.org/wiki/SRGB#The_forward_transformation_.28CIE_xyY_or_CIE_XYZ_to_sRGB.29
-            var R = correctGamma( 3.2406 * xyz[0] - 1.5372 * xyz[1] - 0.4986 * xyz[2]);
-            var G = correctGamma(-0.9689 * xyz[0] + 1.8758 * xyz[1] + 0.0415 * xyz[2]);
-            var B = correctGamma( 0.0557 * xyz[0] - 0.2040 * xyz[1] + 1.0570 * xyz[2]);
-            
-            // Clamp out-of-gamut colors
-            R = Math.max(0, Math.min(1, R));
-            G = Math.max(0, Math.min(1, G));
-            B = Math.max(0, Math.min(1, B));
-            
-            return [R, G, B];
-        }
+    }
+    
+    ColorZebra.Color.LABtoRGB = function(cielab) {
+        // Convert to CIEXYZ
+        var xyz = ColorZebra.Color.LABtoXYZ(cielab);
         
-        this.toIntegerRGB = function() {
-            rgb = this.toRGB();            
-            return [Math.round(255 * rgb[0]), Math.round(255 * rgb[1]), Math.round(255 * rgb[2])];
-        }
+        // Convert to RGB. Formulas and numbers from Wikipedia:
+        // https://en.wikipedia.org/wiki/SRGB#The_forward_transformation_.28CIE_xyY_or_CIE_XYZ_to_sRGB.29
+        var R = correctGamma( 3.2406 * xyz[0] - 1.5372 * xyz[1] - 0.4986 * xyz[2]);
+        var G = correctGamma(-0.9689 * xyz[0] + 1.8758 * xyz[1] + 0.0415 * xyz[2]);
+        var B = correctGamma( 0.0557 * xyz[0] - 0.2040 * xyz[1] + 1.0570 * xyz[2]);
+        
+        // Clamp out-of-gamut colors
+        R = Math.max(0, Math.min(1, R));
+        G = Math.max(0, Math.min(1, G));
+        B = Math.max(0, Math.min(1, B));
+        
+        return [R, G, B];
         
         function correctGamma(t) {
             if (t <= 0.0031308) {
@@ -58,32 +49,16 @@
                 return 1.055 * Math.pow(t, 0.41666666666) - 0.055;
             }
         }
-        
-        this.toCSSColor = function() {
-            var rgb = this.toIntegerRGB();
-            return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
-        }
-        
-        this.desaturate = function() {
-            a /= 3;
-            b /= 3;
-            return this;
-        }
-    }
-    
-    ColorZebra.Color.LABtoRGB = function(cielab) {
-        var c = new ColorZebra.Color(cielab);
-        return c.toRGB();
     }
     
     ColorZebra.Color.LABtoIntegerRGB = function(cielab) {
-        var c = new ColorZebra.Color(cielab);
-        return c.toIntegerRGB();
+        var rgb = ColorZebra.Color.LABtoRGB(cielab);
+        return [Math.round(255 * rgb[0]), Math.round(255 * rgb[1]), Math.round(255 * rgb[2])];
     }
     
     ColorZebra.Color.LABtoCSS = function(cielab) {
-        var c = new ColorZebra.Color(cielab);
-        return c.toCSSColor();
+        var rgb = ColorZebra.Color.LABtoIntegerRGB(cielab);
+        return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
     }
     
     ColorZebra.Color.LCHtoLAB = function(l, c, h) {

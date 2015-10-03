@@ -28,12 +28,13 @@
         }
         
         function getColor(val) {
+            var color = colorMap.getLABColor(val);
+            
             if (desaturate) {
-                var color = new ColorZebra.Color(colorMap.getLABColor(val));
-                return color.desaturate().toCSSColor();
-            } else {
-                return colorMap.getCSSColor(val);
+                color = ColorZebra.Color.desaturateLAB(color);
             }
+            
+            return ColorZebra.Color.LABtoCSS(color);
         }
     }
 }( window.ColorZebra = window.ColorZebra || {}, jQuery ));
