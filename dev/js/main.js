@@ -21,6 +21,7 @@
                 
                 if (map === ColorZebra.colorMap) {
                     map.canvas.setDesaturate(false);
+                    $(this).addClass('selected');
                 }
                 
                 map.canvas.draw();
@@ -42,6 +43,10 @@
                 map.canvas.setDesaturate(false);
                 map.canvas.draw();
                 
+                // Switch the selected class
+                $('#colormaps>.selected').removeClass('selected');
+                $(this).addClass('selected');
+                
                 // Desaturate the current thumbnail
                 ColorZebra.colorMap.canvas.setDesaturate(true);
                 ColorZebra.colorMap.canvas.draw();
@@ -58,18 +63,12 @@
         $('#colormaps>canvas').hover(function() {
             var map = ColorZebra.colorMaps[this.id];
             
-            this.style.height = '4.5em';
-            this.style.margin = '0.75em 1em';
-            
             // Saturate the thumbnail
             map.canvas.setDesaturate(false);
             map.canvas.draw();
         },
         function() {
             var map = ColorZebra.colorMaps[this.id];
-            
-            this.style.height = '4em';
-            this.style.margin = '1em';
             
             // Desaturate the thumbnail
             if (ColorZebra.colorMap !== map) {
