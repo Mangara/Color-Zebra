@@ -77,6 +77,13 @@
             }
         });
         
+        $('#numcolors').keypress(function(e) {
+            if (e.which == 13) {
+                ColorZebra.numColors = $('#numcolors').val();
+                ColorZebra.fixedNumPreview.draw();
+            }
+        });
+        
         $('#fixednum-apply').click(function() {
             ColorZebra.numColors = $('#numcolors').val();
             ColorZebra.fixedNumPreview.draw();
