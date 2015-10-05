@@ -97,25 +97,40 @@
         
         // Make the download links work
         $('#download-csv-int').click(function() {
-            download(this, 'csv', ColorZebra.exportIntegerCSV());
+            download(this, 'csv', 'csv', ColorZebra.exportIntegerCSV());
         });
         
         $('#download-csv-float').click(function() {
-            download(this, 'csv', ColorZebra.exportFloatCSV());
+            download(this, 'csv', 'csv', ColorZebra.exportFloatCSV());
         });
         
         $('#download-ipe').click(function() {
-            download(this, 'plain', ColorZebra.exportIPE());
+            download(this, 'plain', 'isy', ColorZebra.exportIPE());
         });
         
         /* $('#download-css').click(function() {
             download($('#download-css')[0], 'css', ColorZebra.exportCSS());
         }); */
         
-        // TODO: Use tricks from http://danml.com/download.html to make this work in other browsers
-        function download(link, mimeType, fileContents) {
+        function download(link, mimeType, extension, fileContents) {
             // Based on "download.js" v4.0, by dandavis; 2008-2015. [CCBY] see http://danml.com/download.html
-            link.href = 'data:text/' + mimeType + ';charset=utf-8,' + encodeURIComponent(fileContents);
+            
+            if (navigator.msSaveBlob) { // IE10 can't do a[download], only Blobs
+                var blob = new Blob([fileContents], {type: 'text/' + mimeType});
+                navigator.msSaveBlob(blob, 'colormap.' + extension);
+            } else if ('download' in link) { // HTML5 a[download]
+                link.href = 'data:text/' + mimeType + ';charset=utf-8,' + encodeURIComponent(fileContents);
+            } else if (typeof safari !== undefined) { // Handle non-a[download] safari as best we can:
+				var url = 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(fileContents);
+                
+				if (!window.open(url)) { // Popup blocked, offer direct download:
+					if (confirm('Displaying New Document\n\nUse Save As... to download, then click back to return to this page.')) { 
+                        location.href=url;
+                    }
+				}
+			} else { // None of these download options are supported. Just show the text and allow them to copy it.
+                
+            }
         }
         
         // Make our canvases respond to window resizing
