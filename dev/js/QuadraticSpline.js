@@ -140,28 +140,15 @@
         }
         
         function deBoor(t, k) {
-            if (knots[k + 3] != knots[k + 1]) {
-                var a21 = (t - knots[k + 1]) / (knots[k + 3] - knots[k + 1]);
-            } else {
-                var a21 = 0;
-            }
-            
-            if (knots[k + 2] != knots[k]) {
-                var a11 = (t - knots[k]) / (knots[k + 2] - knots[k]);
-            } else {
-                var a11 = 0;
-            }
+            var a21 = (knots[k + 3] === knots[k + 1] ? 0 : (t - knots[k + 1]) / (knots[k + 3] - knots[k + 1]));
+            var a11 = (knots[k + 2] === knots[k] ? 0 : (t - knots[k]) / (knots[k + 2] - knots[k]));
             
             var p21a = (1 - a21) * points[k+1][1] + a21 * points[k+2][1];
             var p21b = (1 - a21) * points[k+1][2] + a21 * points[k+2][2];
             var p11a = (1 - a11) * points[k][1] + a11 * points[k+1][1];
             var p11b = (1 - a11) * points[k][2] + a11 * points[k+1][2];
             
-            if (knots[k + 2] != knots[k + 1]) {
-                var a22 = (t - knots[k + 1]) / (knots[k + 2] - knots[k + 1]);
-            } else {
-                var a22 = 0;
-            }
+            var a22 = (knots[k + 2] === knots[k + 1] ? 0 : (t - knots[k + 1]) / (knots[k + 2] - knots[k + 1]));
             
             return [
                 (1 - a22) * p11a + a22 * p21a,
