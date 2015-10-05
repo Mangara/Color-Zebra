@@ -5,7 +5,7 @@
     ColorZebra.main = function() {
         // Handle on-load stuff
         $(document).ready(function() {
-            // Prepare our preview panel
+            // Prepare our preview panels
             ColorZebra.mainPreview = new ColorZebra.Preview($('#preview')[0]);
             ColorZebra.mainPreview.maximize();
             ColorZebra.mainPreview.draw();
@@ -35,6 +35,7 @@
     
     // Assign all action handlers at startup
     function assignActionHandlers() {
+        // Change the active colormap when a thumbnail is clicked
         $('#colormaps>canvas').click(function() {
             var map = ColorZebra.colorMaps[this.id];
             
@@ -60,6 +61,7 @@
             }
         });
         
+        // Saturate the hovered thumbnails
         $('#colormaps>canvas').hover(function() {
             var map = ColorZebra.colorMaps[this.id];
             
@@ -77,18 +79,23 @@
             }
         });
         
+        // Update the number of colors
         $('#numcolors').keypress(function(e) {
             if (e.which == 13) {
-                ColorZebra.numColors = $('#numcolors').val();
-                ColorZebra.fixedNumPreview.draw();
+                updateNumColors();
             }
         });
         
         $('#fixednum-apply').click(function() {
-            ColorZebra.numColors = $('#numcolors').val();
-            ColorZebra.fixedNumPreview.draw();
+            updateNumColors();
         });
         
+        function updateNumColors() {
+            ColorZebra.numColors = $('#numcolors').val();
+            ColorZebra.fixedNumPreview.draw();
+        }
+        
+        // Make the download links work
         $('#download-csv-int').click(function() {
             download(this, 'csv', ColorZebra.exportIntegerCSV());
         });
@@ -105,6 +112,12 @@
             download($('#download-css')[0], 'css', ColorZebra.exportCSS());
         }); */
         
+        // TODO: Use tricks from http://danml.com/download.html to make this work in other browsers
+        function download(link, mimeType, fileContents) {
+            // Based on "download.js" v4.0, by dandavis; 2008-2015. [CCBY] see http://danml.com/download.html
+            link.href = 'data:text/' + mimeType + ';charset=utf-8,' + encodeURIComponent(fileContents);
+        }
+        
         // Make our canvases respond to window resizing
         $(window).resize(function() {
             ColorZebra.mainPreview.maximize();
@@ -112,10 +125,5 @@
             ColorZebra.fixedNumPreview.maximize();
             ColorZebra.fixedNumPreview.draw();
         });
-    }
-    
-    // TODO: Use tricks from http://danml.com/download.html to make this work in other browsers
-    function download(link, mimeType, fileContents) {
-        link.href = 'data:text/' + mimeType + ';charset=utf-8,' + encodeURIComponent(fileContents);
     }
 }( window.ColorZebra = window.ColorZebra || {}, jQuery ));
