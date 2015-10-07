@@ -63,19 +63,42 @@
         
         // Saturate the hovered thumbnails
         $('#colormaps>canvas').hover(function() {
-            var map = ColorZebra.colorMaps[this.id];
-            
-            // Saturate the thumbnail
-            map.canvas.setDesaturate(false);
-            map.canvas.draw();
+            saturateThumbnail(this);
         },
         function() {
-            var map = ColorZebra.colorMaps[this.id];
+            desaturateThumbnail(this);
+        });
+        
+        // Do the same when focused
+        $('#colormaps>canvas').focus(function() {
+            saturateThumbnail(this);
+        });
+        $('#colormaps>canvas').blur(function() {
+            desaturateThumbnail(this);
+        });
+        
+        function saturateThumbnail(thumbnail) {
+            var canvas = ColorZebra.colorMaps[thumbnail.id].canvas;
+            canvas.setDesaturate(false);
+            canvas.draw();
+        }
+        
+        function desaturateThumbnail(thumbnail) {
+            var map = ColorZebra.colorMaps[thumbnail.id];
             
-            // Desaturate the thumbnail
             if (ColorZebra.colorMap !== map) {
                 map.canvas.setDesaturate(true);
                 map.canvas.draw();
+            }
+        }
+        
+        // And make them react to key events when focused
+        $('#Glow').keydown(function() {
+            var code = e.which; // 13 = Enter, 32 = Space
+            alert('Key pressed: ' + code);
+            
+            if ((code === 13) || (code === 32)) {
+                $(this).click();
             }
         });
         

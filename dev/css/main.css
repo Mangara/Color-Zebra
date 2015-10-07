@@ -58,7 +58,7 @@ canvas {
     cursor: pointer;
 }
 
-#colormaps>canvas:hover {
+#colormaps>canvas:hover, #colormaps>canvas:focus {
     height: 4.5em;
     margin: 0.75em 1em;
 }
@@ -88,7 +88,7 @@ canvas {
 
 #controls {
     display: inline-block;
-    width: 10em;
+    width: 11em;
     font-family: Montserrat;
     color: #222;
     background: rgba(255, 255, 255, 0.5);
@@ -96,7 +96,15 @@ canvas {
 }
 
 #numcolors {
-    width: 3em;
+    width: 3.5em;
+    padding: 0.1em;
+    font-family: Montserrat;
+    font-size: 1em;
+    color: #222;
+    text-align: right;
+    background: white;
+    border: 0px solid black;
+    border-radius: 3px;
 }
 
 #acknowledgments {
