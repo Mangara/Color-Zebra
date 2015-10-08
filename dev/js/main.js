@@ -59,22 +59,20 @@
                 ColorZebra.mainPreview.draw();
                 ColorZebra.fixedNumPreview.draw();
             }
-        });
-        
-        // Saturate the hovered thumbnails
-        $('#colormaps>canvas').hover(function() {
+        }).hover(function() { // Saturate hovered and focused thumbnails
             saturateThumbnail(this);
-        },
-        function() {
+        }, function() {
             desaturateThumbnail(this);
-        });
-        
-        // Do the same when focused
-        $('#colormaps>canvas').focus(function() {
+        }).focus(function() {
             saturateThumbnail(this);
-        });
-        $('#colormaps>canvas').blur(function() {
+        }).blur(function() {
             desaturateThumbnail(this);
+        }).keydown(function(e) { // React to key events when focused
+            var code = e.which; // 13 = Enter, 32 = Space
+            if ((code === 13) || (code === 32)) {
+                $(this).click();
+                return false; // Prevent the event from bubbling further
+            }
         });
         
         function saturateThumbnail(thumbnail) {
@@ -92,19 +90,9 @@
             }
         }
         
-        // And make them react to key events when focused
-        $('#Glow').keydown(function() {
-            var code = e.which; // 13 = Enter, 32 = Space
-            alert('Key pressed: ' + code);
-            
-            if ((code === 13) || (code === 32)) {
-                $(this).click();
-            }
-        });
-        
         // Update the number of colors
-        $('#numcolors').keypress(function(e) {
-            if (e.which == 13) {
+        $('#numcolors').keydown(function(e) {
+            if (e.which === 13) {
                 updateNumColors();
             }
         });

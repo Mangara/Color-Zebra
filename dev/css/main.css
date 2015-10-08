@@ -56,6 +56,11 @@ canvas {
     border-radius: 0.3em;
     margin: 1em;
     cursor: pointer;
+    outline: none;
+    -webkit-transition: height 40ms linear, margin 40ms linear;
+    -moz-transition: height 40ms linear, margin 40ms linear;
+    -o-transition: height 40ms linear, margin 40ms linear;
+    transition: height 40ms linear, margin 40ms linear;
 }
 
 #colormaps>canvas:hover, #colormaps>canvas:focus {
@@ -81,14 +86,14 @@ canvas {
     position: relative;
     top: -4em;
     margin-bottom: -4em;
-    line-height: 2em;
-    padding: 1em;
+    line-height: 2.5em;
+    padding: 0.75em;
     text-align: center;
 }
 
 #controls {
     display: inline-block;
-    width: 11em;
+    width: 12em;
     font-family: Montserrat;
     color: #222;
     background: rgba(255, 255, 255, 0.5);
@@ -105,6 +110,13 @@ canvas {
     background: white;
     border: 0px solid black;
     border-radius: 3px;
+}
+
+#fixednum-apply {
+    padding: 0.15em 0.4em;
+    font-family: Montserrat;
+    font-size: 0.85em;
+    color: #222;
 }
 
 #acknowledgments {
