@@ -50,25 +50,31 @@
                 <canvas id="fixednum-preview"></canvas>
             </div>
             <div id="controls-wrapper">
-                <div id="controls">
+                <div id="num-controls" class="controls">
                     <input id="numcolors" type="number" min="2" value="12">
                     <span>colors</span>
                     <button id="fixednum-apply">Apply</button>
                 </div>
-            </div>
-            <div id="download">
-                <span>Download:</span>
-                <a id="download-csv-int" download="colormap.csv">Integer CSV</a>
-                <a id="download-csv-float" download="colormap.csv">Float CSV</a>
-                <a id="download-ipe" download="colormap.isy">IPE-style</a>
-                <!-- <a id="download-css" download="colormap.css">CSS</a> -->
+                <div id="dl-controls" class="controls">
+                    <span>Format</span>
+                    <select id="format">
+                      <option value="csv-int">CSV (Integer)</option>
+                      <option value="csv-float">CSV (Float)</option>
+                      <option value="ipe">IPE-Style</option>
+                    </select>
+                    <button id="download">
+                      <img src="../figs/download174.svg"></img>
+                      Download
+                    </button>
+                </div>
             </div>
         </section>
         
         <footer>
             <div id="acknowledgments">
-                <p>Color Zebra is based on research by</p>
-                <p id="attribution-address">
+                <p>&copy; 2015 <a href="http://cglab.ca/~sander/">Sander Verdonschot</a></p>
+            
+                <p>Color Zebra is based on the following research project:<br>
                     CET Perceptually Uniform Colour Maps<br>
                     Peter Kovesi<br>
                     Centre for Exploration Targeting<br>
@@ -77,6 +83,8 @@
                     <a href="http://www.cet.edu.au/research-projects/colourmaps">www.cet.edu.au/research-projects/colourmaps</a><br>
                     Licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
                 </p>
+                
+                <p>Download icon by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>.</p>
             </div>
         </footer>
     </body>
