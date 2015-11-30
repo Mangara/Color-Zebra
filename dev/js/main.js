@@ -106,31 +106,29 @@
             ColorZebra.fixedNumPreview.draw();
         }
         
-        // Make the download links work
-        $('#download-csv-int').click(function() {
-            download(this, 'csv', 'csv', ColorZebra.exportIntegerCSV());
+        // Make the download link work
+        $('#download').click(function() {
+            switch ($("#format").val()) {
+                case 'csv-int':
+                    download(this, 'csv', 'csv', ColorZebra.exportIntegerCSV());
+                    break;
+                case 'csv-float':
+                    download(this, 'csv', 'csv', ColorZebra.exportFloatCSV());
+                    break;
+                case 'ipe':
+                    download(this, 'plain', 'isy', ColorZebra.exportIPE());
+                    break;
+            } 
         });
-        
-        $('#download-csv-float').click(function() {
-            download(this, 'csv', 'csv', ColorZebra.exportFloatCSV());
-        });
-        
-        $('#download-ipe').click(function() {
-            download(this, 'plain', 'isy', ColorZebra.exportIPE());
-        });
-        
-        /* $('#download-css').click(function() {
-            download($('#download-css')[0], 'css', ColorZebra.exportCSS());
-        }); */
         
         function download(link, mimeType, extension, fileContents) {
             // Based on "download.js" v4.0, by dandavis; 2008-2015. [CCBY] see http://danml.com/download.html
-            
             if (navigator.msSaveBlob) { // IE10 can't do a[download], only Blobs
                 var blob = new Blob([fileContents], {type: 'text/' + mimeType});
                 navigator.msSaveBlob(blob, 'colormap.' + extension);
             } else if ('download' in link) { // HTML5 a[download]
                 link.href = 'data:text/' + mimeType + ';charset=utf-8,' + encodeURIComponent(fileContents);
+                link.download = 'colormap.' + extension;
             } else if (typeof safari !== undefined) { // Handle non-a[download] safari as best we can:
 				var url = 'data:application/octet-stream;charset=utf-8,' + encodeURIComponent(fileContents);
                 
