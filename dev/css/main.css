@@ -44,7 +44,7 @@ canvas {
 }
 
 #colormaps {
-    margin: 2em 0;
+    margin: 1em 0;
     padding: 1em;
     text-align: center;
 }
@@ -54,7 +54,7 @@ canvas {
     height: 4em;
     border: 1px solid white;
     border-radius: 0.3em;
-    margin: 1em;
+    margin: 1em 1.5%;
     cursor: pointer;
     outline: none;
     -webkit-transition: height 40ms linear, margin 40ms linear;
@@ -65,12 +65,12 @@ canvas {
 
 #colormaps>canvas:hover, #colormaps>canvas:focus {
     height: 4.5em;
-    margin: 0.75em 1em;
+    margin: 0.75em 1.5%;
 }
 
 #colormaps>.selected {
     height: 4.5em;
-    margin: 0.75em 1em;
+    margin: 0.75em 1.5%;
     border: 1px solid #333;
 }
 
@@ -80,6 +80,7 @@ canvas {
 
 #fixednum-preview-container {
     height: 4em;
+    margin-top: 2em;
 }
 
 #controls-wrapper {
@@ -160,7 +161,7 @@ a>img {
 }
 
 #acknowledgments {
-    margin-top: 5em;
+    margin-top: 0em;
     font-size: 0.7em;
     line-height: 140%;
     color: #666;
@@ -182,4 +183,119 @@ a>img {
     white-space: pre-line;
     text-align: left;
     width: 22em;
+}
+
+@media all and (max-width: 64em) {
+    body {
+        font-size: 100%;
+    }
+    
+    #subtitle-part-2 {
+        display: none;
+    }
+    
+    #fixednum-preview-container {
+        margin-top: 1.5em;
+    }
+    
+    #colormaps {
+        height: 20em;
+    }
+    
+    #colormaps>canvas {
+        position: absolute;
+        width: 40%;
+    }
+    
+    #Glow, #Sunrise {
+        top: 21.5em;
+    }
+    
+    #Fern, #Lake {
+        top: 27em;
+    }
+    
+    #Sky, #Twilight {
+        top: 32.5em;
+    }
+    
+    #Dawn, #Water {
+        top: 38em;
+    }
+    
+    #Glow, #Fern, #Sky, #Dawn {
+        left: 6%;
+    }
+    
+    #Sunrise, #Lake, #Twilight, #Water {
+        left: 52.5%;
+    }
+}
+
+@media all and (max-width: 42em) {
+    body {
+        font-size: 90%;
+    }
+    
+    header {
+        margin: 0;
+        text-align: center;
+    }
+    
+    .subtitle {
+        display: none;
+    }
+    
+    #fixednum-preview-container {
+        height: 6em;
+    }
+    
+    #controls-wrapper {
+        position: relative;
+        top: -6em;
+        margin-bottom: -6em;
+        line-height: 2.45em;
+        padding: 0.5em;
+        text-align: center;
+    }
+
+    .controls {
+        display: block;
+        width: 18em;
+        margin: 0 auto;
+    }
+    
+    #num-controls {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    
+    #dl-controls {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    
+    #Glow, #Sunrise {
+        top: 23.5em;
+    }
+    
+    #Fern, #Lake {
+        top: 29em;
+    }
+    
+    #Sky, #Twilight {
+        top: 34.5em;
+    }
+    
+    #Dawn, #Water {
+        top: 40em;
+    }
+    
+    #Glow, #Fern, #Sky, #Dawn {
+        left: 6%;
+    }
+    
+    #Sunrise, #Lake, #Twilight, #Water {
+        left: 52.5%;
+    }
 }
