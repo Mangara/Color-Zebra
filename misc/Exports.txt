@@ -1,8 +1,8 @@
 == Fixed # of colors
 
-- IPE style file
-- CSV int values (0 - 255)
-- CSV float values (0 - 1)
+X IPE style file
+X CSV int values (0 - 255)
+X CSV float values (0 - 1)
 - CSS hex
 
 - JS array
