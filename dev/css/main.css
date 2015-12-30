@@ -298,4 +298,10 @@ a>img {
     #Sunrise, #Lake, #Twilight, #Water {
         left: 52.5%;
     }
+    
+    .ack-column {
+        float: none;
+        width: 50%;
+        margin: 0 auto;
+    }
 }
