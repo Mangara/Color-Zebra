@@ -22,7 +22,7 @@ cp ../dev/html/index.html .
     sed 's|\([0-9][0-9]*\):.*|\1|'
   )
   # Insert <script src="all.js"></script> before this line
-  sed -i "$LINE"'i<script src="all.js"></script>' index.html
+  sed -i "$LINE"'i<script src="all.js" async></script>' index.html
   # Delete all <script src="\.\./js/[a-zA-Z]*\.js"></script> imports (from the ../js/ directory)
   sed -i '/<script src="\.\.\/js\/[a-zA-Z]*\.js"><\/script>/d' index.html
 

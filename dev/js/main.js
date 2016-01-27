@@ -1,37 +1,7 @@
 (function( ColorZebra, $, undefined ) {
+    // Important variables with their initial values
     ColorZebra.colorMap = ColorZebra.colorMaps['Lake'];
     ColorZebra.numColors = 12;
-    
-    ColorZebra.main = function() {
-        // Handle on-load stuff
-        $(document).ready(function() {
-            // Prepare our preview panels
-            ColorZebra.mainPreview = new ColorZebra.Preview($('#preview')[0]);
-            ColorZebra.mainPreview.maximize();
-            ColorZebra.mainPreview.draw();
-            
-            ColorZebra.fixedNumPreview = new ColorZebra.FixedNumPreview($('#fixednum-preview')[0]);
-            ColorZebra.fixedNumPreview.maximize();
-            ColorZebra.fixedNumPreview.draw();
-            
-            // Create all thumbnails
-            $('#colormaps>canvas').each(function() {
-                var map = ColorZebra.colorMaps[this.id];
-                map.canvas = new ColorZebra.CMapDrawer(this, map);
-                
-                if (map === ColorZebra.colorMap) {
-                    map.canvas.setDesaturate(false);
-                    $(this).addClass('selected');
-                }
-                
-                map.canvas.draw();
-                
-                this.title = map.description;
-            });
-            
-            assignActionHandlers();
-        });
-    }
     
     // Assign all action handlers at startup
     function assignActionHandlers() {
@@ -150,4 +120,33 @@
             ColorZebra.fixedNumPreview.draw();
         });
     }
+    
+    // Handle on-load stuff
+    $(document).ready(function() {
+        // Prepare our preview panels
+        ColorZebra.mainPreview = new ColorZebra.Preview($('#preview')[0]);
+        ColorZebra.mainPreview.maximize();
+        ColorZebra.mainPreview.draw();
+        
+        ColorZebra.fixedNumPreview = new ColorZebra.FixedNumPreview($('#fixednum-preview')[0]);
+        ColorZebra.fixedNumPreview.maximize();
+        ColorZebra.fixedNumPreview.draw();
+        
+        // Create all thumbnails
+        $('#colormaps>canvas').each(function() {
+            var map = ColorZebra.colorMaps[this.id];
+            map.canvas = new ColorZebra.CMapDrawer(this, map);
+            
+            if (map === ColorZebra.colorMap) {
+                map.canvas.setDesaturate(false);
+                $(this).addClass('selected');
+            }
+            
+            map.canvas.draw();
+            
+            this.title = map.description;
+        });
+        
+        assignActionHandlers();
+    });
 }( window.ColorZebra = window.ColorZebra || {}, jQuery ));
