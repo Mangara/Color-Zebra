@@ -88,6 +88,12 @@
                 case 'ipe':
                     download(this, 'plain', 'isy', ColorZebra.exportIPE());
                     break;
+                case 'js-code':
+                    download(this, 'application/javascript', 'js', ColorZebra.exportJSCode());
+                    break;
+                case 'java-code':
+                    download(this, 'text/x-java-source', 'java', ColorZebra.exportJavaCode());
+                    break;
             } 
         });
         

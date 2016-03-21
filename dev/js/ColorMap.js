@@ -13,6 +13,14 @@
         this.getCSSColor = function(value) {
             return ColorZebra.Color.LABtoCSS(this.getLABColor(value));
         }
+
+        this.getControlPoints = function() {
+            return points;
+        }
+
+        this.getSpline = function() {
+            return spline;
+        }
         
         function normalizeLightness(value) {
             return points[0][0] + value * (points[points.length - 1][0] - points[0][0]);
