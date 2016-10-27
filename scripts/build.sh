@@ -36,3 +36,8 @@ cat ../dev/js/Color.js ../dev/js/LinearSpline.js ../dev/js/QuadraticSpline.js ..
 
 # Copy images
 cp -r ../dev/figs .
+
+# Minify everything
+cp ../tools/miniweb.properties .
+java -jar ../tools/MiniWeb-v1.0.jar index.html --replace
+rm miniweb.properties
