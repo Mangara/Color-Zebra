@@ -1,0 +1,18 @@
+#editor {
+    margin: 1em 4em;
+}
+
+.control-point {
+
+}
+
+.control-point > input[type="number"] {
+    padding: 0.1em;
+    font-family: Montserrat;
+    font-size: 0.85em;
+    color: #222;
+    text-align: right;
+    background: white;
+    border: 1px solid black;
+    border-radius: 3px;
+}

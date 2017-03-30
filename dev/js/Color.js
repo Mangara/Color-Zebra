@@ -60,6 +60,17 @@
         var rgb = ColorZebra.Color.LABtoIntegerRGB(cielab);
         return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
     }
+
+    ColorZebra.Color.LABtoHEX = function(cielab) {
+        // From: http://stackoverflow.com/a/5624139/2683771
+        function componentToHex(c) {
+            var hex = c.toString(16);
+            return hex.length == 1 ? "0" + hex : hex;
+        }
+
+        var rgb = ColorZebra.Color.LABtoIntegerRGB(cielab);
+        return "#" + componentToHex(rgb[0]) + componentToHex(rgb[1]) + componentToHex(rgb[2]);
+    }
     
     ColorZebra.Color.LCHtoLAB = function(l, c, h) {
         var theta = Math.PI * h / 180;
