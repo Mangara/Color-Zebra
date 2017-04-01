@@ -1,0 +1,12 @@
+Select control point
+
+Insert point after selected
+Insert point before selected
+Remove selected point
+
+Enforce lightness monotonicity
+- dynamically update min/max values to match prev+1 and next-1
+
+Area on the right: (for selected point)
+- Range slider for lightness, bounded by prev and next point
+- 2D control for other dimensions
