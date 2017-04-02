@@ -1,7 +1,6 @@
 (function( ColorZebra, $, undefined ) {
     // Important variables with their initial values
     ColorZebra.colorMap = ColorZebra.colorMaps['Lake'];
-    var selectedWidget = 0;
     
     // Assign all action handlers at startup
     function assignActionHandlers() {
@@ -11,53 +10,96 @@
             ColorZebra.mainPreview.draw();
         });
 
-        // React to changes in the control points
-        $('.control-point>input[type="number"]').change(function() {
-            updateColorMap();
-            updateWidgetBackground($(this).parent());
-        });
-
-        $('.control-point').click(function() {
-            $(ColorZebra.cpWidgets[selectedWidget]).removeClass('selected');
-            selectedWidget = ColorZebra.cpWidgets.indexOf(this);
-            $(this).addClass('selected');
-        });
+        
 
         $('#remove').click(function() {
-            
+            var selectedWidget = $('.selected').first();
+
+            // Select next one, if available
+            if (selectedWidget.next().length) {
+                selectedWidget.next().addClass('selected');
+            } else if (selectedWidget.prev().length) {
+                selectedWidget.prev().addClass('selected');
+            }
+
+            selectedWidget.remove();
+
+            updateColorMap();
+
+            // TODO: check if more removal is allowed
         });
 
         $('#insert-before').click(function() {
-            
+            var newWidget = createWidget(0, 100);
+            var selectedWidget = $('.selected').first();
+
+            var color = getColor(selectedWidget);
+            var pt = [color[0] - 1, 0, 0];
+            syncControlPointWidget(newWidget, pt);
+
+            selectedWidget.before(newWidget);
+
+            selectedWidget.removeClass('selected');
+            newWidget.addClass('selected');
+
+            updateColorMap();
+
+            // TODO: check if more can be inserted
         });
 
         $('#insert-after').click(function() {
-            
+            var newWidget = createWidget(0, 100);
+            var selectedWidget = $('.selected').first();
+
+            var color = getColor(selectedWidget);
+            var pt = [color[0] + 1, 0, 0];
+            syncControlPointWidget(newWidget, pt);
+
+            selectedWidget.after(newWidget);
+
+            selectedWidget.removeClass('selected');
+            newWidget.addClass('selected');
+
+            updateColorMap();
+
+            // TODO: check if more can be inserted
+        });
+    }
+
+    function addActionHandlers(widget) {
+        // React to changes in the control points
+        widget.children('input[type="number"]').change(function() {
+            updateWidgetBackground($(this).parent());
+            updateColorMap();
+        });
+
+        // Update selection
+        widget.click(function() {
+            $('.selected').removeClass('selected');
+            $(this).addClass('selected');
+
+            // TODO: check if lightness allows for insertion before/after
         });
     }
 
     function createControlPointWidgets() {
-        if (!ColorZebra.cpWidgets) {
-            ColorZebra.cpWidgets = [];
-        }
-
         var points = ColorZebra.colorMap.getControlPoints();
 
         for (var i = 0, max = points.length; i < max; i++) {
-            var widget = addControlPointWidget();
+            var widget = createWidget(0, 100);
+            $("#cp-widgets").append(widget);
             syncControlPointWidget(widget, points[i]);
         }
 
-        selectedWidget = 0;
-        ColorZebra.cpWidgets[0].addClass('selected');
+        $('#cp-widgets').children().first().addClass('selected');
     }
 
     function updateColorMap() {
         var points = [];
-
-        for (var i = 0, max = ColorZebra.cpWidgets.length; i < max; i++) {
-            points.push(getColor(ColorZebra.cpWidgets[i]));
-        }
+        
+        $('#cp-widgets').children().each(function() {
+            points.push(getColor(this));
+        });
 
         ColorZebra.colorMap = new ColorZebra.ColorMap(
             'Custom',
@@ -69,16 +111,20 @@
         ColorZebra.mainPreview.draw();
     }
 
-    function addControlPointWidget() {
-        var newWidget = $("<div class=control-point><input type=number min=0 max=100> <input type=number min=-128 max=128> <input type=number min=-128 max=128></div>");
-        $("#cp-widgets").append(newWidget);
-        ColorZebra.cpWidgets.push(newWidget);
-        return newWidget;
+    function createWidget(minL, maxL) {
+        var widget = $("<div class=control-point>" + 
+            "<input type=number min=" + minL + " max=" + maxL + ">" +
+            " <input type=number min=-128 max=128>" + 
+            " <input type=number min=-128 max=128>" + 
+            "</div>");
+        addActionHandlers(widget);
+        return widget;
     }
 
-    function removeControlPointWidget() {
-        var lastWidget = ColorZebra.cpWidgets.pop();
-        lastWidget.remove();
+    function addControlPointWidget() {
+        var newWidget = createWidget(0, 100);
+        $("#cp-widgets").append(newWidget);
+        return newWidget;
     }
 
     function syncControlPointWidget(widget, point) {
