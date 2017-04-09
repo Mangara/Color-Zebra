@@ -1,5 +1,6 @@
-#editor {
+.control {
     margin: 1em 4em;
+    float: left;
 }
 
 .control-point {
@@ -16,7 +17,7 @@
 }
 
 .control-point > input[type="number"] {
-
+    width: 4em;
     padding: 0.1em;
     margin: 0 0.25em;
     font-family: Montserrat;
@@ -25,4 +26,78 @@
     text-align: right;
     border: 1px solid #eee;
     border-radius: 3px;
+}
+
+/* Make Firefox's number inputs work like Chrome's */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+input[type="number"]:hover,
+input[type="number"]:focus {
+    -moz-appearance: number-input;
+}
+
+#lightness {
+    width: 15em;
+}
+
+/* Slider stylings, based on styling from http://danielstern.ca/range.css/ */
+input[type=range].slider {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 0px 0;
+}
+input[type=range].slider::-webkit-slider-runnable-track {
+  cursor: pointer;
+  width: 100%;
+  height: 2em;
+  background: linear-gradient(to right, black 0.5em, white 14.5em);
+  border: 1px solid #eeeeee;
+  border-radius: 3px;
+}
+input[type=range].slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  cursor: pointer;
+  height: 2.65em;
+  width: 0;
+  margin-top: -0.4em;
+  border: 0.5em solid #222;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
+}
+input[type=range].slider::-moz-range-track {
+  cursor: pointer;
+  width: 100%;
+  height: 2em;
+  background: linear-gradient(to right, black 0.5em, white 14.5em);
+  border: 1px solid #eeeeee;
+  border-radius: 3px;
+}
+input[type=range].slider::-moz-range-thumb {
+  cursor: pointer;
+  height: 2em;
+  width: 0;
+  margin-top: -0.5em;
+  border: 0.5em solid #222;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
+  border-radius: 0;
+  background: transparent;
+}
+input[type=range].slider::-ms-track {
+  cursor: pointer;
+  width: 100%;
+  height: 2em;
+  background: linear-gradient(to right, black 0.5em, white 14.5em);
+  border: 1px solid #eeeeee;
+  border-radius: 3px;
+}
+input[type=range].slider::-ms-thumb {
+  cursor: pointer;
+  margin: 0;
+  height: 1.8em;
+  width: 0px;
+  border: 0.5em solid #222;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
 }

@@ -160,6 +160,10 @@ a>img {
     vertical-align: middle;
 }
 
+footer {
+    clear: both;
+}
+
 #acknowledgments {
     margin-top: 0em;
     font-size: 0.75em;
