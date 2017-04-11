@@ -10,75 +10,93 @@
             ColorZebra.mainPreview.draw();
         });
 
-        
-
         $('#remove').click(function() {
             var selectedWidget = $('.selected').first();
 
-            // Select next one, if available
-            if (selectedWidget.next().length) {
-                selectedWidget.next().addClass('selected');
-            } else if (selectedWidget.prev().length) {
-                selectedWidget.prev().addClass('selected');
-            }
+            // Update min of neighbours
+            var myLightnessInput = selectedWidget.children("input[type=number]").first();
+            var myMin = myLightnessInput.attr('min');
+            var myMax = myLightnessInput.attr('max');
+            selectedWidget.prev().children("input[type=number]").first().attr('max', myMax);
+            selectedWidget.next().children("input[type=number]").first().attr('min', myMin);
 
+            var nextWidget = (selectedWidget.next().length ? selectedWidget.next() : selectedWidget.prev());
             selectedWidget.remove();
+            selectWidget(nextWidget);
 
             updateColorMap();
-
-            // TODO: check if more removal is allowed
         });
 
         $('#insert-before').click(function() {
-            var newWidget = createWidget(0, 100);
             var selectedWidget = $('.selected').first();
-
             var color = getColor(selectedWidget);
-            var pt = [color[0] - 1, 0, 0];
-            syncControlPointWidget(newWidget, pt);
+            color[0]--;
+
+            var min = (selectedWidget.prev().length ? getLightness(selectedWidget.prev()) + 1 : 0);
+            var max = color[0];
+
+            selectedWidget.prev().children("input[type=number]").first().attr('max', color[0] - 1);
+            selectedWidget.children("input[type=number]").first().attr('min', color[0] + 1);
+
+            var newWidget = createWidget(min, max);
+            syncControlPointWidget(newWidget, color);
 
             selectedWidget.before(newWidget);
 
-            selectedWidget.removeClass('selected');
-            newWidget.addClass('selected');
+            selectWidget(newWidget);
 
             updateColorMap();
-
-            // TODO: check if more can be inserted
         });
 
         $('#insert-after').click(function() {
-            var newWidget = createWidget(0, 100);
             var selectedWidget = $('.selected').first();
-
             var color = getColor(selectedWidget);
-            var pt = [color[0] + 1, 0, 0];
-            syncControlPointWidget(newWidget, pt);
+            color[0]++;
+
+            var min = color[0];
+            var max = (selectedWidget.next().length ? getLightness(selectedWidget.next()) - 1 : 0);
+
+            selectedWidget.children("input[type=number]").first().attr('max', color[0] - 1);
+            selectedWidget.next().children("input[type=number]").first().attr('min', color[0] + 1);
+
+            var newWidget = createWidget(min, max);
+            syncControlPointWidget(newWidget, color);
 
             selectedWidget.after(newWidget);
 
-            selectedWidget.removeClass('selected');
-            newWidget.addClass('selected');
+            selectWidget(newWidget);
 
             updateColorMap();
+        });
 
-            // TODO: check if more can be inserted
+        $('#lightness').change(function() {
+            setWidgetLightness($('.selected').first(), $('#lightness').val());
         });
     }
 
     function addActionHandlers(widget) {
         // React to changes in the control points
         widget.children('input[type="number"]').change(function() {
-            updateWidgetBackground($(this).parent());
+            var widget = $(this).parent();
+
+            updateWidgetBackground(widget);
+            updateColorControls();
             updateColorMap();
+
+            if ($(this).is(':first-child')) {
+                // The lightness changed
+                updateButtonsEnabledState();
+
+                var newVal = parseInt($(this).val());
+
+                widget.prev().children("input[type=number]").first().attr('max', newVal - 1);
+                widget.next().children("input[type=number]").first().attr('min', newVal + 1);
+            }
         });
 
         // Update selection
         widget.click(function() {
-            $('.selected').removeClass('selected');
-            $(this).addClass('selected');
-
-            // TODO: check if lightness allows for insertion before/after
+            selectWidget($(this));
         });
     }
 
@@ -86,12 +104,14 @@
         var points = ColorZebra.colorMap.getControlPoints();
 
         for (var i = 0, max = points.length; i < max; i++) {
-            var widget = createWidget(0, 100);
+            var minL = (i === 0 ? 0 : points[i - 1][0] + 1);
+            var maxL = (i === points.length - 1 ? 100 : points[i + 1][0] - 1);
+            var widget = createWidget(minL, maxL);
             $("#cp-widgets").append(widget);
             syncControlPointWidget(widget, points[i]);
         }
 
-        $('#cp-widgets').children().first().addClass('selected');
+        selectWidget($('#cp-widgets').children().first());
     }
 
     function updateColorMap() {
@@ -139,6 +159,15 @@
         $(widget).css("background-color", color);
     }
 
+    function setWidgetLightness(widget, lightness) {
+        var lightnessInput = $(widget).children("input[type=number]").first();
+
+        if (lightnessInput.val() != lightness) {
+            lightnessInput.val(lightness);
+            lightnessInput.trigger('change');
+        }
+    }
+
     function updateWidgetBackground(widget) {
         $(widget).css("background-color", ColorZebra.Color.LABtoCSS(getColor(widget)));  
     }
@@ -146,6 +175,59 @@
     function getColor(widget) {
         var labTextfields = $(widget).children("input[type=number]");
         return [parseInt(labTextfields[0].value), parseInt(labTextfields[1].value), parseInt(labTextfields[2].value)];
+    }
+
+    function getLightness(widget) {
+        return parseInt($(widget).children("input[type=number]")[0].value);
+    }
+
+    function selectWidget(widget) {
+        $('.selected').removeClass('selected');
+        widget.addClass('selected');
+
+        updateColorControls();
+        updateButtonsEnabledState();
+    }
+
+    function updateColorControls() {
+        var selectedWidget = $('.selected').first();
+        var lightnessInput = selectedWidget.children("input[type=number]").first();
+        var color = getColor(selectedWidget);
+
+        var lightnessSlider = $('#lightness').first();
+        lightnessSlider.attr('min', lightnessInput.attr('min'));
+        lightnessSlider.attr('max', lightnessInput.attr('max'));
+        lightnessSlider.val(color[0]);
+
+
+
+        // TODO: update a* and b*
+    }
+
+    function updateButtonsEnabledState() {
+        var selectedWidget = $('.selected').first();
+        var lightnessInput = selectedWidget.children("input[type=number]").first();
+        var lightness = parseInt(lightnessInput.val());
+        var min = parseInt(lightnessInput.attr('min'));
+        var max = parseInt(lightnessInput.attr('max'));
+
+        if (lightness <= min) {
+            $('#insert-before').prop("disabled", true);
+        } else {
+            $('#insert-before').prop("disabled", false);
+        }
+
+        if (lightness >= max) {
+            $('#insert-after').prop("disabled", true);
+        } else {
+            $('#insert-after').prop("disabled", false);
+        }
+
+        if ($('.control-point').length === 3) {
+            $('#remove').prop("disabled", true);
+        } else {
+            $('#remove').prop("disabled", false);
+        }
     }
 
     // Handle on-load stuff

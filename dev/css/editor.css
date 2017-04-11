@@ -4,6 +4,7 @@
 }
 
 .control-point {
+    cursor: pointer;
 	text-align: center;
 	line-height: 100%;
 	width: 15em;
@@ -17,15 +18,8 @@
 }
 
 .control-point > input[type="number"] {
-    width: 4em;
-    padding: 0.1em;
+    width: 3.5em;
     margin: 0 0.25em;
-    font-family: Montserrat;
-    font-size: 0.85em;
-    color: #222;
-    text-align: right;
-    border: 1px solid #eee;
-    border-radius: 3px;
 }
 
 /* Make Firefox's number inputs work like Chrome's */
@@ -45,7 +39,8 @@ input[type="number"]:focus {
 input[type=range].slider {
   -webkit-appearance: none;
   width: 100%;
-  margin: 0px 0;
+  margin: 0;
+  border: 0px solid black;
 }
 input[type=range].slider::-webkit-slider-runnable-track {
   cursor: pointer;

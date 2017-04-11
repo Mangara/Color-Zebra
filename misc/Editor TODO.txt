@@ -1,11 +1,9 @@
-Enforce lightness monotonicity
-- dynamically update min/max values to match prev+1 and next-1
-
 Area on the right: (for selected point)
-- Range slider for lightness, bounded by prev and next point
+- Background of lightness slider shows colors
 - 2D control for other dimensions
 
 Support for non-monotonic colormaps
 - One curve (set of control points)
 - Multiple segments: each segment is monotonic
 - Breakpoints have an associated value, so that value -> lightness becomes value -> segment -> lightness
+- Button to break a colormap: reverses lightness monotonicity
