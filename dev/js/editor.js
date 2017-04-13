@@ -223,7 +223,25 @@
 
         $("#dynamic").text("#lightness::-webkit-slider-runnable-track { " + rule + " }");
 
-        // TODO: update a* and b*
+        var canvas = $('#abControl')[0];
+        var context = canvas.getContext("2d"),
+            x,
+            width = canvas.width,
+            height = canvas.height,
+            minAB = -128,
+            maxAB = 128;
+                    
+        for (x = 0; x < width; x++) {
+            var xt = x / (width - 1); // x mapped to [0, 1]
+            var a = minAB + xt * (maxAB - minAB);
+            
+            for (y = 0; y < height; y++) {
+                var yt = y / (height - 1);
+                var b = minAB + yt * (maxAB - minAB);
+                context.fillStyle = ColorZebra.Color.LABtoCSS([color[0], a, b]);
+                context.fillRect(x, y, 1, 1);
+            }
+        }
     }
 
     function updateButtonsEnabledState() {

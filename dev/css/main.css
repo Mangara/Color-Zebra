@@ -52,7 +52,7 @@ canvas {
 #colormaps>canvas {
     width: 20%;
     height: 4em;
-    border: 1px solid white;
+    border: 1px solid #eee;
     border-radius: 0.3em;
     margin: 1em 1.5%;
     cursor: pointer;
