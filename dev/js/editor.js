@@ -194,12 +194,34 @@
         var lightnessInput = selectedWidget.children("input[type=number]").first();
         var color = getColor(selectedWidget);
 
+        // Update lightness slider values
         var lightnessSlider = $('#lightness').first();
-        lightnessSlider.attr('min', lightnessInput.attr('min'));
-        lightnessSlider.attr('max', lightnessInput.attr('max'));
+        var min = parseInt(lightnessInput.attr('min'));
+        var max = parseInt(lightnessInput.attr('max'));
+        lightnessSlider.attr('min', min);
+        lightnessSlider.attr('max', max);
         lightnessSlider.val(color[0]);
 
+        // Update lightness slider background
+        var start = 0.5;
+        var end = 14.5;
+        var nStops = 8;
 
+        var rule = "background: linear-gradient(to right, ";
+
+        for (var i = 0; i < nStops; i++) {
+            var f = i / (nStops - 1);
+            rule += ColorZebra.Color.LABtoCSS([min + f * (max - min), color[1], color[2]]);
+            rule += " " + (start + f * (end - start)) + "em";
+
+            if (i == nStops - 1) {
+                rule += ");";
+            } else {
+                rule += ", ";
+            }
+        }
+
+        $("#dynamic").text("#lightness::-webkit-slider-runnable-track { " + rule + " }");
 
         // TODO: update a* and b*
     }
@@ -232,6 +254,9 @@
 
     // Handle on-load stuff
     $(document).ready(function() {
+        // Add custom CSS so we can dynamically change slider styling
+        $("<style id='dynamic'></style>").appendTo("head");
+
         // Prepare our preview panels
         ColorZebra.mainPreview = new ColorZebra.Preview($('#preview')[0]);
         ColorZebra.mainPreview.maximize();

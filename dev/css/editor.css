@@ -35,6 +35,12 @@ input[type="number"]:focus {
     width: 15em;
 }
 
+#abControl {
+    width: 14em;
+    height: 14em;
+    margin-left: 0.25em;
+}
+
 /* Slider stylings, based on styling from http://danielstern.ca/range.css/ */
 input[type=range].slider {
   -webkit-appearance: none;
