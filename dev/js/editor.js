@@ -223,6 +223,7 @@
 
         $("#dynamic").text("#lightness::-webkit-slider-runnable-track { " + rule + " }");
 
+        // Update color canvas
         var canvas = $('#abControl')[0];
         var context = canvas.getContext("2d"),
             x,
@@ -230,7 +231,10 @@
             height = canvas.height,
             minAB = -128,
             maxAB = 128;
-                    
+
+        // Draw the background - the LAB color space for one specific L-value
+        var imageData = context.createImageData(width, height);
+
         for (x = 0; x < width; x++) {
             var xt = x / (width - 1); // x mapped to [0, 1]
             var a = minAB + xt * (maxAB - minAB);
@@ -238,10 +242,21 @@
             for (y = 0; y < height; y++) {
                 var yt = y / (height - 1);
                 var b = minAB + yt * (maxAB - minAB);
-                context.fillStyle = ColorZebra.Color.LABtoCSS([color[0], a, b]);
-                context.fillRect(x, y, 1, 1);
+                var rgb = ColorZebra.Color.LABtoIntegerRGB([color[0], a, b]);
+
+                var pixel = (y * width + x) * 4;
+                imageData.data[pixel    ] = rgb[0];
+                imageData.data[pixel + 1] = rgb[1];
+                imageData.data[pixel + 2] = rgb[2];
+                imageData.data[pixel + 3] = 255; // opaque
             }
         }
+
+        context.putImageData(imageData, 0, 0);
+
+        // Draw the current color indicator
+        context.fillStyle = ColorZebra.Color.LABtoCSS(color);
+        //context.fill
     }
 
     function updateButtonsEnabledState() {

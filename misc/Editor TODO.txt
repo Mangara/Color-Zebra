@@ -1,9 +1,14 @@
 Area on the right: (for selected point)
-- Background of lightness slider shows colors
 - 2D control for other dimensions
+ x Draw current color indicator
+ x Move it with a click
+- Better placement
 
 Support for non-monotonic colormaps
 - One curve (set of control points)
 - Multiple segments: each segment is monotonic
 - Breakpoints have an associated value, so that value -> lightness becomes value -> segment -> lightness
 - Button to break a colormap: reverses lightness monotonicity
+
+Import colormap functionality?
+- Given color points and order, fit spline to this
