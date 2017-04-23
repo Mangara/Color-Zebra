@@ -31,15 +31,21 @@ input[type="number"]:focus {
     -moz-appearance: number-input;
 }
 
+#lightness-container {
+    margin: 0.75em 0;
+}
+
 #lightness {
     width: 15em;
 }
 
 #abControl {
+    cursor: pointer;
     width: 14em;
     height: 14em;
     margin-left: 0.25em;
-    border-width: 0;
+    border: 1px solid #eeeeee;
+    border-radius: 3px;
 }
 
 /* Slider stylings, based on styling from http://danielstern.ca/range.css/ */

@@ -72,6 +72,33 @@
         $('#lightness').change(function() {
             setWidgetLightness($('.selected').first(), $('#lightness').val());
         });
+
+        $('#abControl').click(function(event) {
+            coords = getFractionalClickCoordinates(this, event);
+
+            var minAB = -128, maxAB = 128;
+
+            var a = Math.round(minAB + coords[0] * (maxAB - minAB));
+            var b = Math.round(minAB + coords[1] * (maxAB - minAB));
+
+            setWidgetAB($('.selected').first(), a, b);
+        });
+    }
+
+    function getFractionalClickCoordinates(element, event) {
+        var offsetX = 0, offsetY = 0;
+        var el = element;
+
+        while (el.offsetParent) {
+            offsetX += el.offsetLeft;
+            offsetY += el.offsetTop;
+            el = el.offsetParent;
+        }
+
+        var x = (event.pageX - offsetX) / element.scrollWidth;
+        var y = (event.pageY - offsetY) / element.scrollHeight;
+
+        return [x, y];
     }
 
     function addActionHandlers(widget) {
@@ -80,8 +107,8 @@
             var widget = $(this).parent();
 
             updateWidgetBackground(widget);
-            updateColorControls();
             updateColorMap();
+            updateColorControls();
 
             if ($(this).is(':first-child')) {
                 // The lightness changed
@@ -168,6 +195,25 @@
         }
     }
 
+    function setWidgetAB(widget, a, b) {
+        var labTextfields = $(widget).children("input[type=number]");
+        var changed = false;
+
+        if (labTextfields.eq(1).val() != a) {
+            changed = true;
+            labTextfields.eq(1).val(a);
+        }
+
+        if (labTextfields.eq(2).val() != b) {
+            changed = true;
+            labTextfields.eq(2).val(b);
+        }
+
+        if (changed) {
+            labTextfields.eq(1).trigger('change');
+        }
+    }
+
     function updateWidgetBackground(widget) {
         $(widget).css("background-color", ColorZebra.Color.LABtoCSS(getColor(widget)));  
     }
@@ -226,7 +272,7 @@
         // Update color canvas
         var canvas = $('#abControl')[0];
         var context = canvas.getContext("2d"),
-            x,
+            x, y,
             width = canvas.width,
             height = canvas.height,
             minAB = -128,
@@ -254,9 +300,35 @@
 
         context.putImageData(imageData, 0, 0);
 
+        // Draw the color curve
+        for (var i = 0; i <= 1; i+=0.01) {
+            var c = ColorZebra.colorMap.getLABColor(i);
+
+            x = width * (c[1] - minAB) / (maxAB - minAB);
+            y = height * (c[2] - minAB) / (maxAB - minAB);
+
+            context.fillStyle = ColorZebra.Color.LABtoCSS(c);
+            context.strokeStyle = (color[0] < 70 ? 'white' : 'black');
+            context.lineWidth = 0.5;
+
+            context.beginPath();
+            context.arc(x, y, 4, 0, Math.PI * 2, true); // Circle
+            context.fill();
+            context.stroke();
+        }
+
         // Draw the current color indicator
+        x = width * (color[1] - minAB) / (maxAB - minAB);
+        y = height * (color[2] - minAB) / (maxAB - minAB);
+
         context.fillStyle = ColorZebra.Color.LABtoCSS(color);
-        //context.fill
+        context.strokeStyle = (color[0] < 70 ? 'white' : 'black');
+        context.lineWidth = 2;
+
+        context.beginPath();
+        context.arc(x, y, 10, 0, Math.PI * 2, true); // Circle
+        context.fill();
+        context.stroke();
     }
 
     function updateButtonsEnabledState() {
