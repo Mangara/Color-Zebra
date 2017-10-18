@@ -74,14 +74,21 @@
         });
 
         $('#abControl').click(function(event) {
-            coords = getFractionalClickCoordinates(this, event);
-
+            var coords = getFractionalClickCoordinates(this, event);
             var minAB = -128, maxAB = 128;
 
             var a = Math.round(minAB + coords[0] * (maxAB - minAB));
             var b = Math.round(minAB + coords[1] * (maxAB - minAB));
 
             setWidgetAB($('.selected').first(), a, b);
+        });
+
+        $('#import').click(function(event) {
+            $('#import').css('cursor', 'wait');
+            var colors = parseImportList();
+            var newMap = ColorZebra.importColorMap(colors);
+            setColorMap(newMap);
+            $('#import').css('cursor', 'default');
         });
     }
 
@@ -139,6 +146,15 @@
         }
 
         selectWidget($('#cp-widgets').children().first());
+    }
+
+    function setColorMap(newMap) {
+        ColorZebra.colorMap = newMap;
+
+        ColorZebra.mainPreview.draw();
+
+        $("#cp-widgets").empty();
+        createControlPointWidgets(); // Updates color controls and button state
     }
 
     function updateColorMap() {
@@ -355,6 +371,18 @@
         } else {
             $('#remove').prop("disabled", false);
         }
+    }
+
+    function parseImportList() {
+        var lines = $('#import-list').val().split('\n');
+        var colors = [];
+
+        for (var i = 0; i < lines.length; i++) {
+            var color = lines[i].split(',').map(Number);
+            colors.push(color);
+        }
+
+        return colors;
     }
 
     // Handle on-load stuff

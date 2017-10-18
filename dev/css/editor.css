@@ -109,3 +109,11 @@ input[type=range].slider::-ms-thumb {
   border-left: 0.5em solid transparent;
   border-right: 0.5em solid transparent;
 }
+
+#import-list {
+  height: 15em;
+  width: 15em;
+  display: block;
+  resize: vertical;
+  margin-bottom: 0.5em;
+}

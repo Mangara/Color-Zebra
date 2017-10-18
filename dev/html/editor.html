@@ -23,6 +23,7 @@
         <script src="../js/ColorMaps.js"></script>
         <script src="../js/Exporter.js"></script>
         <script src="../js/CodeExporter.js"></script>
+        <script src="../js/Importer.js"></script>
         <script src="../js/editor.js"></script>
     </head>
     <body>
@@ -50,6 +51,11 @@
                 <input type="range" id="lightness" class="slider">
             </div>
             <canvas id="abControl" width="300" height="300"></canvas>
+        </section>
+
+        <section class="control" id="import-controls">
+            <textarea id="import-list"></textarea>
+            <button id="import">Import</button>
         </section>
         
         <footer>
