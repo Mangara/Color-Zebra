@@ -21,7 +21,7 @@
         var colormapChache = [];
 
         var minCP = 2, maxCP = 10;
-        var errorBound = 0.001;
+        var errorBound = 1.0;
 
         while (maxCP > minCP + 1) {
             var cp = Math.floor((minCP + maxCP) / 2);
@@ -100,8 +100,18 @@
     }
 
     function calculateError(colors, colormap) {
-        // TODO
-        return 0;
+        // Return average squared Euclidean distance
+        var cumulativeError = 0;
+
+        for (var i = 0; i < colors.length; i++) {
+            var s = colormap.getSpline();
+            var c = s.getColorForLightness(colors[i][0]);
+            var da = c[1] - colors[i][1];
+            var db = c[2] - colors[i][2];
+            cumulativeError += da * da + db * db;
+        }
+
+        return cumulativeError / colors.length;
     }
 
     function findBestMap(colors, cp) {
