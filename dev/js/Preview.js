@@ -17,7 +17,7 @@
             
             drawPiecewiseLinear();
         }
-        
+
         function drawPiecewiseLinear() {
             // The test image consists of a sine wave plus a ramp function
             // The sine wave has a wavelength of 8 pixels (which is why we multiply by 2pi/8 = pi/4)
@@ -33,45 +33,73 @@
                 x,
                 width = canvas.width,
                 height = canvas.height;
+
+            var amp = [];
+            for (y = STEPS; y > 0; y--) {
+                var yt = y / STEPS;
+                amp[y] = 0.05 * yt * yt;
+            }
+
+            var sinVal = [];
+            for (x = 0; x < 8; x++) {
+                sinVal.push(Math.sin(x * PI_BY_FOUR));
+            }
+
+            var xt = 0;
+            var dx = 1 / (width - 1);
                         
             for (x = 0; x < width; x++) {
-                var xt = x / (width - 1); // x mapped to [0, 1]
-                var sinVal = Math.sin(x * PI_BY_FOUR);
-                
                 var my_gradient = context.createLinearGradient(0, 0, 0, height);
                 
                 for (y = STEPS; y > 0; y--) {
                     var yt = y / STEPS;
-                    var amp = 0.05 * yt * yt;
-                    var val = amp * sinVal + getRamp(xt, amp);
+                    var val = amp[y] * sinVal[x % 8] + getRamp(xt, amp[y]);
                     my_gradient.addColorStop(1 - yt, ColorZebra.colorMap.getCSSColor(val));
                 }
                 
                 context.fillStyle = my_gradient;
                 context.fillRect(x, 0, 1, height);
+
+                xt += dx;
             }
         }
-        
+
         function drawQuadratic() {
-            // Super-slow way of drawing the test image, for performance comparison
-            
+            // Slightly slower way of drawing the test image pixel-perfect
             var context = canvas.getContext("2d"),
                 x, y,
                 width = canvas.width,
                 height = canvas.height;
-                        
+
+            var imageData = context.createImageData(width, height);
+
+            var amp = [];
+            for (y = 0; y < height; y++) {
+                var yt = (height - y) / (height - 1);
+                amp.push(0.05 * yt * yt);
+            }
+
+            var sinVal = [];
+            for (x = 0; x < 8; x++) {
+                sinVal.push(Math.sin(x * PI_BY_FOUR));
+            }
+
             for (x = 0; x < width; x++) {
                 var xt = x / (width - 1); // x mapped to [0, 1]
-                var sinVal = Math.sin(x * PI_BY_FOUR);
                 
                 for (y = 0; y < height; y++) {
-                    var yt = (height - y) / (height - 1);
-                    var amp = 0.05 * yt * yt;
-                    var val = amp * sinVal + getRamp(xt, amp);
-                    context.fillStyle = ColorZebra.colorMap.getCSSColor(val);
-                    context.fillRect(x, y, 1, 1);
+                    var val = amp[y] * sinVal[x % 8] + getRamp(xt, amp[y]);
+                    var rgb = ColorZebra.Color.LABtoIntegerRGB(ColorZebra.colorMap.getLABColor(val));
+
+                    var pixel = (y * width + x) * 4;
+                    imageData.data[pixel    ] = rgb[0];
+                    imageData.data[pixel + 1] = rgb[1];
+                    imageData.data[pixel + 2] = rgb[2];
+                    imageData.data[pixel + 3] = 255; // opaque
                 }
             }
+
+            context.putImageData(imageData, 0, 0);
         }
         
         function getRamp(xt, amp) {
