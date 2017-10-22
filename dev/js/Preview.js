@@ -1,12 +1,15 @@
 (function( ColorZebra, $, undefined ) {
     ColorZebra.Preview = function(theCanvas) {
         var canvas = theCanvas;
-        var PI_BY_FOUR = Math.PI / 4;
         
         this.maximize = function() {
             var parent = $(canvas).parent();
-            canvas.width = parent.width();
-            canvas.height = parent.height() - 4; // No clue why the -4 is necessary.
+
+            if (canvas.width != parent.width() || canvas.height != parent.height() - 4) {
+                canvas.width = parent.width();
+                canvas.height = parent.height() - 4; // No clue why the -4 is necessary.
+                computeValues();
+            }
         }
         
         this.draw = function() {
@@ -18,6 +21,42 @@
             drawPiecewiseLinear();
         }
 
+        var STEPS = 10;
+        var values, stops;
+
+        function computeValues() {
+            var x, y, width = canvas.width;
+
+            values = [];
+            stops = [];
+
+            var amp = [];
+            for (y = STEPS; y > 0; y--) {
+                var yt = y / STEPS;
+                amp[y] = 0.05 * yt * yt;
+
+                stops[y] = 1 - y / STEPS;
+            }
+
+            var sinVal = [];
+            for (x = 0; x < 8; x++) {
+                sinVal.push(Math.sin(x * Math.PI / 4));
+            }
+
+            var xt = 0;
+            var dx = 1 / (width - 1);
+                        
+            for (x = 0; x < width; x++) {
+                values[x] = [];
+
+                for (y = STEPS; y > 0; y--) {
+                    values[x][y] = amp[y] * sinVal[x % 8] + getRamp(xt, amp[y]);
+                }
+
+                xt += dx;
+            }
+        }
+
         function drawPiecewiseLinear() {
             // The test image consists of a sine wave plus a ramp function
             // The sine wave has a wavelength of 8 pixels (which is why we multiply by 2pi/8 = pi/4)
@@ -27,40 +66,20 @@
             // Drawing it per-pixel is slow, because context fillstyle changes are very expensive (much more than any calculations we're doing).
             // This method draws the same image, except that the amplitude of the sine wave approximates the quadratic modulation with a piecewise linear one.
             // This is ~25 times faster than drawing each pixel for STEPS = 10, and nearly impossible to distinguish visually.
-            var STEPS = 10;
-            
             var context = canvas.getContext("2d"),
-                x,
+                x, y,
                 width = canvas.width,
                 height = canvas.height;
-
-            var amp = [];
-            for (y = STEPS; y > 0; y--) {
-                var yt = y / STEPS;
-                amp[y] = 0.05 * yt * yt;
-            }
-
-            var sinVal = [];
-            for (x = 0; x < 8; x++) {
-                sinVal.push(Math.sin(x * PI_BY_FOUR));
-            }
-
-            var xt = 0;
-            var dx = 1 / (width - 1);
                         
             for (x = 0; x < width; x++) {
                 var my_gradient = context.createLinearGradient(0, 0, 0, height);
                 
                 for (y = STEPS; y > 0; y--) {
-                    var yt = y / STEPS;
-                    var val = amp[y] * sinVal[x % 8] + getRamp(xt, amp[y]);
-                    my_gradient.addColorStop(1 - yt, ColorZebra.colorMap.getCSSColor(val));
+                    my_gradient.addColorStop(stops[y], ColorZebra.colorMap.getCSSColor(values[x][y]));
                 }
                 
                 context.fillStyle = my_gradient;
                 context.fillRect(x, 0, 1, height);
-
-                xt += dx;
             }
         }
 
@@ -81,7 +100,7 @@
 
             var sinVal = [];
             for (x = 0; x < 8; x++) {
-                sinVal.push(Math.sin(x * PI_BY_FOUR));
+                sinVal.push(Math.sin(x * Math.PI / 4));
             }
 
             for (x = 0; x < width; x++) {
