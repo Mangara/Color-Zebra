@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="ColorZebra Logo v1.svg">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient4491-8"
+       inkscape:collect="always">
+      <stop
+         id="stop4500"
+         offset="0"
+         style="stop-color:#1a0086;stop-opacity:1" />
+      <stop
+         style="stop-color:#1b13ae;stop-opacity:1"
+         offset="0.09"
+         id="stop4507" />
+      <stop
+         id="stop4509"
+         offset="0.18000001"
+         style="stop-color:#1c2bcd;stop-opacity:1" />
+      <stop
+         style="stop-color:#214bd4;stop-opacity:1"
+         offset="0.27000001"
+         id="stop4511" />
+      <stop
+         id="stop4513"
+         offset="0.36000001"
+         style="stop-color:#2b7497;stop-opacity:1" />
+      <stop
+         style="stop-color:#3f905a;stop-opacity:1"
+         offset="0.44999999"
+         id="stop4515" />
+      <stop
+         id="stop4517"
+         offset="0.55000001"
+         style="stop-color:#5aa62f;stop-opacity:1" />
+      <stop
+         style="stop-color:#85b817;stop-opacity:1"
+         offset="0.63999999"
+         id="stop4519" />
+      <stop
+         id="stop4521"
+         offset="0.73000002"
+         style="stop-color:#b6c81e;stop-opacity:1" />
+      <stop
+         style="stop-color:#dfd83a;stop-opacity:1"
+         offset="0.81999999"
+         id="stop4523" />
+      <stop
+         id="stop4525"
+         offset="0.90999997"
+         style="stop-color:#f2ee79;stop-opacity:1" />
+      <stop
+         id="stop4502"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4491-8"
+       id="linearGradient4505"
+       gradientUnits="userSpaceOnUse"
+       x1="10.690781"
+       y1="47.637527"
+       x2="111.71867"
+       y2="47.637527"
+       gradientTransform="matrix(0.98994939,0,0,0.51540953,-10.583332,-9.5325311)" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2"
+     inkscape:cx="193.97993"
+     inkscape:cy="1164.2904"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="true"
+     inkscape:measure-start="82.8325,989.823"
+     inkscape:measure-end="82.7536,989.452"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1680"
+     inkscape:window-height="987"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       position="0,308.63646"
+       orientation="1,0"
+       id="guide4539"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="-5.8208332,296.9948"
+       orientation="0,1"
+       id="guide4541"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="100.0125,311.15001"
+       orientation="1,0"
+       id="guide4543"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="-3.7885456,266.97553"
+       orientation="0,1"
+       id="guide4545"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="5.0270832,290.84324"
+       orientation="1,0"
+       id="guide4547"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="-1.0996745,292.00079"
+       orientation="0,1"
+       id="guide4549"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="-1.403165,272.00355"
+       orientation="0,1"
+       id="guide4551"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="95.005962,287.15773"
+       orientation="1,0"
+       id="guide4553"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:url(#linearGradient4505);fill-opacity:1;stroke-width:0.18899277"
+       id="rect4485"
+       width="100.0125"
+       height="30.03021"
+       x="0"
+       y="0.0052007791"
+       ry="5.0161076" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.39999962px;line-height:1.25;font-family:Montserrat;-inkscape-font-specification:Montserrat;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="4.5203986"
+       y="17.025652"
+       id="text4529"><tspan
+         sodipodi:role="line"
+         id="tspan4527"
+         x="4.5203986"
+         y="17.025652"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:16.93333244px;font-family:Montserrat;-inkscape-font-specification:'Montserrat Medium';fill:#ffffff;fill-opacity:1;stroke-width:0.26458332">Color</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.39999962px;line-height:1.25;font-family:Montserrat;-inkscape-font-specification:Montserrat;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="46.764698"
+       y="25.005898"
+       id="text4533"><tspan
+         sodipodi:role="line"
+         id="tspan4531"
+         x="46.764698"
+         y="25.005898"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:16.93333244px;font-family:Montserrat;-inkscape-font-specification:'Montserrat Medium';stroke-width:0.26458332">Zebra</tspan></text>
+  </g>
+</svg>
