@@ -7,6 +7,16 @@ rm -rf ./build
 mkdir build
 cd build
 
+# Clone gh-pages branch
+git clone https://github.com/Mangara/Color-Zebra.git .
+git checkout gh-pages
+
+# Empty it
+rm *.html
+rm *.css
+rm *.js
+rm -rf ./figs
+
 # Copy HTML file
 cp ../dev/html/index.html .
 
@@ -41,3 +51,8 @@ cp -r ../dev/figs .
 cp ../tools/miniweb.properties .
 java -jar ../tools/MiniWeb-v1.0.jar index.html --replace
 rm miniweb.properties
+
+# Commit changes
+git add .
+git commit -m "Update."
+git push
