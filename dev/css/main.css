@@ -25,6 +25,7 @@ h1 {
 h2 {
     font-family: Montserrat;
     color: #222;
+    margin: 0;
 }
 
 .subtitle {
@@ -160,8 +161,23 @@ a>img {
     vertical-align: middle;
 }
 
+#settings-container {
+    padding: 0.5em 4em;
+    background: #e4e4e4;
+    border: 1px solid #aaa;
+    border-width: 1px 0px; /* Turn off left and right borders */
+}
+
+#settings {
+    display: none;
+}
+
+#settings-toggle {
+    cursor: pointer;
+}
+
 #acknowledgments {
-    margin-top: 0em;
+    margin-top: 2em;
     font-size: 0.75em;
     line-height: 140%;
     color: #222;
