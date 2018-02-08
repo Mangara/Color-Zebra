@@ -78,7 +78,7 @@
         
         // Make the download link work
         $('#download').click(function() {
-            switch ($("#format").val()) {
+            switch ($('#format').val()) {
                 case 'csv-int':
                     download(this, 'csv', 'csv', ColorZebra.exportIntegerCSV());
                     break;
