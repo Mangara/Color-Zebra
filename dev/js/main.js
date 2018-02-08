@@ -122,17 +122,33 @@
 
         $('#settings-toggle').click(function() {
             $('#settings').slideToggle(500);
-            
+
             if ($('#settings-toggle>i').html() === 'expand_more') {
                 $('#settings-toggle>i').html('expand_less');
             } else {
                 $('#settings-toggle>i').html('expand_more');
             }
         });
+
+        $('#invert').click(function() {
+            ColorZebra.settings.inverted = !ColorZebra.settings.inverted;
+
+            // Redraw stuff
+            ColorZebra.mainPreview.draw();
+            ColorZebra.fixedNumPreview.draw();
+
+            $('#colormaps>canvas').each(function() {
+                var map = ColorZebra.colorMaps[this.id];
+                map.canvas.draw();
+            });
+        });
     }
     
     // Handle on-load stuff
     $(document).ready(function() {
+        // Init settings
+        ColorZebra.settings = new ColorZebra.Settings(false);
+
         // Prepare our preview panels
         ColorZebra.mainPreview = new ColorZebra.Preview($('#preview')[0]);
         ColorZebra.mainPreview.maximize();

@@ -15,7 +15,11 @@
         }
         
         function normalizeLightness(value) {
-            return points[0][0] + value * (points[points.length - 1][0] - points[0][0]);
+            if (ColorZebra.settings.inverted) {
+                return points[points.length - 1][0] - value * (points[points.length - 1][0] - points[0][0]);
+            } else {
+                return points[0][0] + value * (points[points.length - 1][0] - points[0][0]);
+            }
         }
     }
 }( window.ColorZebra = window.ColorZebra || {}, jQuery ));
