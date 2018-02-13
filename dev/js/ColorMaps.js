@@ -91,15 +91,15 @@
         'Sunrise' : new ColorZebra.ColorMap(
             'Sunrise',
             'Blue-Magenta-Orange-Yellow highly saturated colour map',
-            [ ColorZebra.Color.LCHtoLAB(10, 78, -60),  
-              ColorZebra.Color.LCHtoLAB(20, 100, -60),
-              ColorZebra.Color.LCHtoLAB(30, 78, -40),
-              ColorZebra.Color.LCHtoLAB(40, 74, -20),                
-              ColorZebra.Color.LCHtoLAB(50, 80, 0),                 
-              ColorZebra.Color.LCHtoLAB(60, 80, 20),
-              ColorZebra.Color.LCHtoLAB(70, 72, 50),
-              ColorZebra.Color.LCHtoLAB(80, 84, 77),
-              ColorZebra.Color.LCHtoLAB(95, 90, 95) ],
+            [ ColorZebra.Color.LCHtoLAB([10, 78, -60]),  
+              ColorZebra.Color.LCHtoLAB([20, 100, -60]),
+              ColorZebra.Color.LCHtoLAB([30, 78, -40]),
+              ColorZebra.Color.LCHtoLAB([40, 74, -20]),                
+              ColorZebra.Color.LCHtoLAB([50, 80, 0]),                 
+              ColorZebra.Color.LCHtoLAB([60, 80, 20]),
+              ColorZebra.Color.LCHtoLAB([70, 72, 50]),
+              ColorZebra.Color.LCHtoLAB([80, 84, 77]),
+              ColorZebra.Color.LCHtoLAB([95, 90, 95]) ],
             3
          ),
         
@@ -119,11 +119,11 @@
         'Morning Mist' : new ColorZebra.ColorMap(
             'Morning Mist',
             'A geographical colour map, best used with relief shading',
-            [ ColorZebra.Color.LCHtoLAB(60, 20, 180),
-              ColorZebra.Color.LCHtoLAB(65, 30, 135),
-              ColorZebra.Color.LCHtoLAB(70, 35, 75),
-              ColorZebra.Color.LCHtoLAB(75, 45, 85),
-              ColorZebra.Color.LCHtoLAB(80, 22, 90), 
+            [ ColorZebra.Color.LCHtoLAB([60, 20, 180]),
+              ColorZebra.Color.LCHtoLAB([65, 30, 135]),
+              ColorZebra.Color.LCHtoLAB([70, 35, 75]),
+              ColorZebra.Color.LCHtoLAB([75, 45, 85]),
+              ColorZebra.Color.LCHtoLAB([80, 22, 90]), 
               [85, 0, 0] ],
             3
          ),
@@ -131,10 +131,10 @@
         'Dawn' : new ColorZebra.ColorMap(
             'Dawn',
             'A more saturated geographical colour map, best used with relief shading',
-            [ ColorZebra.Color.LCHtoLAB(65, 50, 135),
-              ColorZebra.Color.LCHtoLAB(75, 45, 75),
-              ColorZebra.Color.LCHtoLAB(80, 45, 85),
-              ColorZebra.Color.LCHtoLAB(85, 22, 90),        
+            [ ColorZebra.Color.LCHtoLAB([65, 50, 135]),
+              ColorZebra.Color.LCHtoLAB([75, 45, 75]),
+              ColorZebra.Color.LCHtoLAB([80, 45, 85]),
+              ColorZebra.Color.LCHtoLAB([85, 22, 90]),        
               [90, 0, 0] ],
             3
          ),
@@ -142,10 +142,10 @@
         'Water' : new ColorZebra.ColorMap(
             'Water',
             'A water depth colour map',
-            [ ColorZebra.Color.LCHtoLAB(50, 35, -95),
-              ColorZebra.Color.LCHtoLAB(60, 25, -95),
-              ColorZebra.Color.LCHtoLAB(70, 25, -95),
-              ColorZebra.Color.LCHtoLAB(80, 20, -95),
+            [ ColorZebra.Color.LCHtoLAB([50, 35, -95]),
+              ColorZebra.Color.LCHtoLAB([60, 25, -95]),
+              ColorZebra.Color.LCHtoLAB([70, 25, -95]),
+              ColorZebra.Color.LCHtoLAB([80, 20, -95]),
               [95, 0, 0] ],
             3
          )
