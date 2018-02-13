@@ -1,0 +1,17 @@
+{
+    "name": "colorzebra",
+    "version": "1.0.0",
+    "description": "High-quality perceptual colormaps.",
+    "homepage": "https://mangara.github.io/Color-Zebra/",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Mangara/Color-Zebra.git"
+    },
+    "scripts": {
+        "test": "jest"
+    },
+    "devDependencies": {
+        "jest": "^22.2.2"
+    }
+}
