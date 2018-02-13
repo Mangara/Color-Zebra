@@ -13,6 +13,14 @@
         this.getCSSColor = function(value) {
             return ColorZebra.Color.LABtoCSS(this.getLABColor(value));
         }
+
+        this.getControlPoints = function() {
+            return points;
+        }
+
+        this.getSpline = function() {
+            return spline;
+        }
         
         function normalizeLightness(value) {
             if (ColorZebra.settings.inverted) {
