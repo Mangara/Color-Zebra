@@ -25,6 +25,7 @@ h1 {
 h2 {
     font-family: Montserrat;
     color: #222;
+    margin: 0;
 }
 
 .subtitle {
@@ -160,8 +161,22 @@ a>img {
     vertical-align: middle;
 }
 
+#settings-container {
+    padding: 0.5em 4em;
+    border: 1px solid #333;
+    border-width: 1px 0px; /* Turn off left and right borders */
+}
+
+#settings {
+    display: none;
+}
+
+#settings-toggle {
+    cursor: pointer;
+}
+
 #acknowledgments {
-    margin-top: 0em;
+    margin-top: 2em;
     font-size: 0.75em;
     line-height: 140%;
     color: #222;
@@ -306,4 +321,25 @@ a>img {
     .ack-column+.ack-column {
         margin-top: 2em;
     }
+}
+
+/* Material design icon styles */
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+/* Fix for improper baseline */
+.material-icons {
+  vertical-align: middle !important;
+  transform: translateY(-.1em);
 }
