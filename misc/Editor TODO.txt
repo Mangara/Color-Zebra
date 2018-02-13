@@ -1,0 +1,19 @@
+Import colormap functionality?
+- Given color points and order, fit spline to this
+- Points define a curve in LAB space
+- Preprocess this to get a curve with monotonic lightness: longest increasing subsequence?
+- Have a method that, given the points and a number of control points, finds the best quadratic spline to approximate these points
+- Binary search for the spline with the smallest number of control points that has reasonable error
+
+Upgrade to better color space than CIELAB?
+- matplotlib likes CAM02-UCS
+
+Share link
+
+Save colourmaps to cookies
+
+Support for non-monotonic colormaps
+- One curve (set of control points)
+- Multiple segments: each segment is monotonic
+- Breakpoints have an associated value, so that value -> lightness becomes value -> segment -> lightness
+- Button to break a colormap: reverses lightness monotonicity

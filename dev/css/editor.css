@@ -1,0 +1,119 @@
+.control {
+    margin: 1em 4em;
+    float: left;
+}
+
+.control-point {
+    cursor: pointer;
+	text-align: center;
+	line-height: 100%;
+	width: 15em;
+	margin: 0.5em 0;
+	padding: 0.5em 1em;
+	border-radius: 5px;
+	border: 2px solid #eee;
+}
+.control-point:hover, .selected {
+	border: 2px solid #222;
+}
+
+.control-point > input[type="number"] {
+    width: 3.5em;
+    margin: 0 0.25em;
+}
+
+/* Make Firefox's number inputs work like Chrome's */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+input[type="number"]:hover,
+input[type="number"]:focus {
+    -moz-appearance: number-input;
+}
+
+#lightness-container {
+    margin: 0.75em 0;
+}
+
+#lightness {
+    width: 15em;
+}
+
+#abControl {
+    cursor: pointer;
+    width: 14em;
+    height: 14em;
+    margin-left: 0.25em;
+    border: 1px solid #eeeeee;
+    border-radius: 3px;
+}
+
+/* Slider stylings, based on styling from http://danielstern.ca/range.css/ */
+input[type=range].slider {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 0;
+  border: 0px solid black;
+}
+input[type=range].slider::-webkit-slider-runnable-track {
+  cursor: pointer;
+  width: 100%;
+  height: 2em;
+  background: linear-gradient(to right, black 0.5em, white 14.5em);
+  border: 1px solid #eeeeee;
+  border-radius: 3px;
+}
+input[type=range].slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  cursor: pointer;
+  height: 2.65em;
+  width: 0;
+  margin-top: -0.4em;
+  border: 0.5em solid #222;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
+}
+input[type=range].slider::-moz-range-track {
+  cursor: pointer;
+  width: 100%;
+  height: 2em;
+  background: linear-gradient(to right, black 0.5em, white 14.5em);
+  border: 1px solid #eeeeee;
+  border-radius: 3px;
+}
+input[type=range].slider::-moz-range-thumb {
+  cursor: pointer;
+  height: 2em;
+  width: 0;
+  margin-top: -0.5em;
+  border: 0.5em solid #222;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
+  border-radius: 0;
+  background: transparent;
+}
+input[type=range].slider::-ms-track {
+  cursor: pointer;
+  width: 100%;
+  height: 2em;
+  background: linear-gradient(to right, black 0.5em, white 14.5em);
+  border: 1px solid #eeeeee;
+  border-radius: 3px;
+}
+input[type=range].slider::-ms-thumb {
+  cursor: pointer;
+  margin: 0;
+  height: 1.8em;
+  width: 0px;
+  border: 0.5em solid #222;
+  border-left: 0.5em solid transparent;
+  border-right: 0.5em solid transparent;
+}
+
+#import-list {
+  height: 15em;
+  width: 15em;
+  display: block;
+  resize: vertical;
+  margin-bottom: 0.5em;
+}
