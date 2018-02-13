@@ -387,6 +387,9 @@
 
     // Handle on-load stuff
     $(document).ready(function() {
+        // Init settings
+        ColorZebra.settings = new ColorZebra.Settings(false);
+
         // Add custom CSS so we can dynamically change slider styling
         $("<style id='dynamic'></style>").appendTo("head");
 
