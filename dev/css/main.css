@@ -173,7 +173,8 @@ a>img {
 #settings-container {
     padding: 0.5em 4em;
     border: 1px solid #333;
-    border-width: 1px 0px; /* Turn off left and right borders */
+    border-width: 1px 0px;
+    overflow: hidden;
 }
 
 #settings {
@@ -184,8 +185,9 @@ a>img {
     cursor: pointer;
 }
 
-footer {
-    clear: both;
+.control {
+    margin: 1em 4em;
+    float: left;
 }
 
 #acknowledgments {

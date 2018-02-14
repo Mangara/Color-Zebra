@@ -78,7 +78,26 @@
             <h2 id="settings-toggle"><i class="material-icons md-dark">expand_more</i> Settings</h2>
 
             <div id="settings">
-                <p><input id="invert" type="checkbox"> <label for="invert">Invert colormap</label></p>
+                <div class="control">
+                    <p><input id="invert" type="checkbox"> <label for="invert">Invert colormap</label></p>
+                </div>
+                
+                <div class="control" id="editor">
+                    <div id="cp-widgets">
+                    </div>
+                    <div id="cp-actions">
+                        <button id="insert-before">Insert Before</button>
+                        <button id="insert-after">Insert After</button>
+                        <button id="remove">Remove</button>
+                    </div>
+                </div>
+
+                <div class="control" id="color-controls">
+                    <div id="lightness-container">
+                        <input type="range" id="lightness" class="slider">
+                    </div>
+                    <canvas id="abControl" width="300" height="300"></canvas>
+                </div>
             </div>
         </section>
         
