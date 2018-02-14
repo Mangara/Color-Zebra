@@ -122,12 +122,9 @@
 
         $('#settings-toggle').click(function() {
             $('#settings').slideToggle(500);
-
-            if ($('#settings-toggle>i').html() === 'expand_more') {
-                $('#settings-toggle>i').html('expand_less');
-            } else {
-                $('#settings-toggle>i').html('expand_more');
-            }
+            $('#settings-toggle>i').html(
+                $('#settings-toggle>i').html() === 'expand_more' ? 'expand_less' : 'expand_more'
+            );
         });
 
         $('#invert').click(function() {
