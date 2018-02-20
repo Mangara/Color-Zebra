@@ -282,7 +282,105 @@
     }
     
     function updateColorControls() {
-        // TODO
+        var selectedWidget = $('#cp-widgets>.selected').first();
+        var color = getWidgetColor(selectedWidget);
+        
+        updateLightnessSlider(selectedWidget, color);
+        updateColorCanvas(color);
+    }
+    
+    function updateLightnessSlider(selectedWidget, color) {
+        var lightnessInput = selectedWidget.children("input[type=number]").first();
+        var min = parseInt(lightnessInput.attr('min'));
+        var max = parseInt(lightnessInput.attr('max'));
+        
+        // Update slider values
+        var lightnessSlider = $('#lightness').first();
+        lightnessSlider.attr('min', min);
+        lightnessSlider.attr('max', max);
+        lightnessSlider.val(color[0]);
+        
+        // Update slider background
+        var start = 0.5;
+        var end = 14.5;
+        var nStops = 8;
+
+        var rule = "background: linear-gradient(to right, ";
+
+        for (var i = 0; i < nStops; i++) {
+            var f = i / (nStops - 1);
+            rule += ColorZebra.Color.LABtoCSS([min + f * (max - min), color[1], color[2]]);
+            rule += " " + (start + f * (end - start)) + "em";
+            rule += (i == nStops - 1 ? ");" : ", ");
+        }
+
+        $("#dynamic").text("#lightness::-webkit-slider-runnable-track { " + rule + " }");
+    }
+    
+    function updateColorCanvas(color) {
+        var canvas = $('#abControl')[0];
+        var context = canvas.getContext("2d"),
+            x, y,
+            width = canvas.width,
+            height = canvas.height;
+
+        drawColorCanvasBackground(context, color[0], width, height);
+        drawColorCanvasCurve(context, color, width, height);
+        drawColorCanvasIndicator(context, color, width, height);
+    }
+    
+    var minAB = -128;
+    var maxAB =  128;
+    
+    function drawColorCanvasBackground(context, lightness, width, height) {
+        var imageData = context.createImageData(width, height);
+
+        for (var x = 0; x < width; x++) {
+            var xt = x / (width - 1); // x mapped to [0, 1]
+            var a = minAB + xt * (maxAB - minAB);
+            
+            for (var y = 0; y < height; y++) {
+                var yt = y / (height - 1);
+                var b = minAB + yt * (maxAB - minAB);
+                var rgb = ColorZebra.Color.LABtoIntegerRGB([lightness, a, b]);
+
+                var pixel = (y * width + x) * 4;
+                imageData.data[pixel    ] = rgb[0];
+                imageData.data[pixel + 1] = rgb[1];
+                imageData.data[pixel + 2] = rgb[2];
+                imageData.data[pixel + 3] = 255; // opaque
+            }
+        }
+
+        context.putImageData(imageData, 0, 0);
+    }
+    
+    function drawColorCanvasCurve(context, color, width, height) {
+        for (var i = 0; i <= 1; i+=0.01) {
+            var c = ColorZebra.colorMap.getLABColor(i);
+            var x = width * (c[1] - minAB) / (maxAB - minAB);
+            var y = height * (c[2] - minAB) / (maxAB - minAB);
+            
+            drawColorCanvasCircle(context, c, color[0], 0.5, x, y, 4);
+        }
+    }
+    
+    function drawColorCanvasIndicator(context, color, width, height) {
+        var x = width * (color[1] - minAB) / (maxAB - minAB);
+        var y = height * (color[2] - minAB) / (maxAB - minAB);
+        
+        drawColorCanvasCircle(context, color, color[0], 2, x, y, 10);
+    }
+    
+    function drawColorCanvasCircle(context, fillColor, lightness, thickness, x, y, radius) {
+        context.fillStyle = ColorZebra.Color.LABtoCSS(fillColor);
+        context.strokeStyle = (lightness < 70 ? 'white' : 'black');
+        context.lineWidth = thickness;
+
+        context.beginPath();
+        context.arc(x, y, radius, 0, Math.PI * 2, true);
+        context.fill();
+        context.stroke();
     }
     
     function updateButtonsEnabledState() {
