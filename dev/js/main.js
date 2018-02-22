@@ -39,6 +39,14 @@
     
     // Assign all action handlers at startup
     function assignActionHandlers() {
+        // Make our canvases respond to window resizing
+        $(window).resize(function() {
+            ColorZebra.mainPreview.maximize();
+            ColorZebra.mainPreview.draw();
+            ColorZebra.fixedNumPreview.maximize();
+            ColorZebra.fixedNumPreview.draw();
+        });
+
         // Change the active colormap when a thumbnail is clicked
         $('#colormaps>canvas').click(function() {
             var map = ColorZebra.colorMaps[this.id];
@@ -53,8 +61,10 @@
                 $(this).addClass('selected');
                 
                 // Desaturate the current thumbnail
-                ColorZebra.colorMap.canvas.setDesaturate(true);
-                ColorZebra.colorMap.canvas.draw();
+                if (ColorZebra.colorMap.canvas) {
+                    ColorZebra.colorMap.canvas.setDesaturate(true);
+                    ColorZebra.colorMap.canvas.draw();
+                }
                 
                 // Switch maps
                 ColorZebra.colorMap = map;
@@ -145,14 +155,6 @@
                 
             }
         }
-        
-        // Make our canvases respond to window resizing
-        $(window).resize(function() {
-            ColorZebra.mainPreview.maximize();
-            ColorZebra.mainPreview.draw();
-            ColorZebra.fixedNumPreview.maximize();
-            ColorZebra.fixedNumPreview.draw();
-        });
 
         $('#settings-toggle').click(function() {
             $('#settings').slideToggle(500);
@@ -173,6 +175,94 @@
                 map.canvas.draw();
             });
         });
+
+        // Editor controls
+        $('#remove').click(function() {
+            var selectedWidget = getSelectedWidget();
+
+            // Update min of neighbours
+            var myLightnessInput = selectedWidget.children("input[type=number]").first();
+            var myMin = myLightnessInput.attr('min');
+            var myMax = myLightnessInput.attr('max');
+            selectedWidget.prev().children("input[type=number]").first().attr('max', myMax);
+            selectedWidget.next().children("input[type=number]").first().attr('min', myMin);
+
+            var nextWidget = (selectedWidget.next().length ? selectedWidget.next() : selectedWidget.prev());
+            selectedWidget.remove();
+            selectWidget(nextWidget);
+
+            updateColorMapFromEditor();
+        });
+
+        $('#insert-before').click(function() {
+            var selectedWidget = getSelectedWidget();
+            var color = getColor(selectedWidget);
+            color[0]--;
+
+            var min = (selectedWidget.prev().length ? getLightness(selectedWidget.prev()) + 1 : 0);
+            var max = color[0];
+
+            selectedWidget.prev().children("input[type=number]").first().attr('max', color[0] - 1);
+            selectedWidget.children("input[type=number]").first().attr('min', color[0] + 1);
+
+            var newWidget = createWidget(min, max);
+            syncControlPointWidget(newWidget, color);
+
+            selectedWidget.before(newWidget);
+
+            selectWidget(newWidget);
+
+            updateColorMapFromEditor();
+        });
+
+        $('#insert-after').click(function() {
+            var selectedWidget = getSelectedWidget();
+            var color = getColor(selectedWidget);
+            color[0]++;
+
+            var min = color[0];
+            var max = (selectedWidget.next().length ? getLightness(selectedWidget.next()) - 1 : 0);
+
+            selectedWidget.children("input[type=number]").first().attr('max', color[0] - 1);
+            selectedWidget.next().children("input[type=number]").first().attr('min', color[0] + 1);
+
+            var newWidget = createWidget(min, max);
+            syncControlPointWidget(newWidget, color);
+
+            selectedWidget.after(newWidget);
+
+            selectWidget(newWidget);
+
+            updateColorMapFromEditor();
+        });
+
+        $('#lightness').change(function() {
+            setWidgetLightness(getSelectedWidget(), this.value);
+        });
+
+        $('#abControl').click(function(event) {
+            var coords = getFractionalClickCoordinates(this, event);
+            var a = Math.round(minAB + coords[0] * (maxAB - minAB));
+            var b = Math.round(minAB + coords[1] * (maxAB - minAB));
+
+            setWidgetAB(getSelectedWidget(), a, b);
+        });
+
+        function getFractionalClickCoordinates(element, event) {
+            var offsetX = 0, offsetY = 0;
+            var el = element;
+
+            while (el.offsetParent) {
+                offsetX += el.offsetLeft;
+                offsetY += el.offsetTop;
+                el = el.offsetParent;
+            }
+
+            var x = (event.pageX - offsetX) / element.scrollWidth;
+            var y = (event.pageY - offsetY) / element.scrollHeight;
+
+            return [x, y];
+        }
     }
     
     function createControlPointWidgets() {
@@ -206,7 +296,7 @@
             var widget = $(this).parent(); // TODO: is this necessary?
 
             updateWidgetBackground(widget);
-            updateColorMap();
+            updateColorMapFromEditor();
             updateColorControls();
 
             if ($(this).is(':first-child')) {
@@ -272,9 +362,13 @@
             lightnessInput.trigger('change');
         }
     }
+
+    function getSelectedWidget() {
+        return $('#cp-widgets>.selected').first();
+    }
     
     function selectWidget(widget) {
-        $('#cp-widgets>.selected').removeClass('selected');
+        getSelectedWidget().removeClass('selected');
         widget.addClass('selected');
 
         updateColorControls();
@@ -282,7 +376,7 @@
     }
     
     function updateColorControls() {
-        var selectedWidget = $('#cp-widgets>.selected').first();
+        var selectedWidget = getSelectedWidget();
         var color = getWidgetColor(selectedWidget);
         
         updateLightnessSlider(selectedWidget, color);
@@ -384,7 +478,15 @@
     }
     
     function updateButtonsEnabledState() {
-        // TODO
+        var selectedWidget = getSelectedWidget();
+        var lightnessInput = selectedWidget.children('input[type=number]').first();
+        var lightness = parseInt(lightnessInput.val());
+        var min = parseInt(lightnessInput.attr('min'));
+        var max = parseInt(lightnessInput.attr('max'));
+
+        $('#insert-before').prop("disabled", lightness <= min);
+        $('#insert-after').prop("disabled", lightness >= max);
+        $('#remove').prop("disabled", $('.control-point').length === 3);
     }
     
     function setColorMap(newMap) {
@@ -397,8 +499,8 @@
         createControlPointWidgets(); // Updates color controls and button state
     }
     
-    function updateColorMap() {
-        var points = $('#cp-widgets').children().map(getWidgetColor);
+    function updateColorMapFromEditor() {
+        var points = $('#cp-widgets').children().get().map(getWidgetColor);
 
         ColorZebra.colorMap = new ColorZebra.ColorMap(
             'Custom',
