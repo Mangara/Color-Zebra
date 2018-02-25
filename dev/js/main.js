@@ -196,17 +196,17 @@
 
         $('#insert-before').click(function() {
             var selectedWidget = getSelectedWidget();
-            var color = getColor(selectedWidget);
+            var color = getWidgetColor(selectedWidget);
             color[0]--;
 
-            var min = (selectedWidget.prev().length ? getLightness(selectedWidget.prev()) + 1 : 0);
+            var min = (selectedWidget.prev().length ? getWidgetLightness(selectedWidget.prev()) + 1 : 0);
             var max = color[0];
 
             selectedWidget.prev().children("input[type=number]").first().attr('max', color[0] - 1);
             selectedWidget.children("input[type=number]").first().attr('min', color[0] + 1);
 
             var newWidget = createWidget(min, max);
-            syncControlPointWidget(newWidget, color);
+            syncWidget(newWidget, color);
 
             selectedWidget.before(newWidget);
 
@@ -217,17 +217,17 @@
 
         $('#insert-after').click(function() {
             var selectedWidget = getSelectedWidget();
-            var color = getColor(selectedWidget);
+            var color = getWidgetColor(selectedWidget);
             color[0]++;
 
             var min = color[0];
-            var max = (selectedWidget.next().length ? getLightness(selectedWidget.next()) - 1 : 0);
+            var max = (selectedWidget.next().length ? getWidgetLightness(selectedWidget.next()) - 1 : 0);
 
             selectedWidget.children("input[type=number]").first().attr('max', color[0] - 1);
             selectedWidget.next().children("input[type=number]").first().attr('min', color[0] + 1);
 
             var newWidget = createWidget(min, max);
-            syncControlPointWidget(newWidget, color);
+            syncWidget(newWidget, color);
 
             selectedWidget.after(newWidget);
 
