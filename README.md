@@ -8,7 +8,7 @@ We welcome pull-requests for [bug fixes](https://github.com/Mangara/Color-Zebra/
 
 ### Unit tests
 
-To run the unit tests, first make sure [Node.js](https://nodejs.org/) is installed, then run `npm install` to install all required linraries, followed by `npm test` to actually run the tests.
+To run the unit tests, first make sure [Node.js](https://nodejs.org/) is installed, then run `npm install` to install all required libraries, followed by `npm test` to actually run the tests.
 
 ## Authors
 
