@@ -56,22 +56,14 @@
                 map.canvas.setDesaturate(false);
                 map.canvas.draw();
                 
+                // Desaturate the current thumbnail
+                deselectColormap();
+                
                 // Switch the selected class
-                $('#colormaps>.selected').removeClass('selected');
                 $(this).addClass('selected');
                 
-                // Desaturate the current thumbnail
-                if (ColorZebra.colorMap.canvas) {
-                    ColorZebra.colorMap.canvas.setDesaturate(true);
-                    ColorZebra.colorMap.canvas.draw();
-                }
-                
                 // Switch maps
-                ColorZebra.colorMap = map;
-                
-                // Redraw stuff
-                ColorZebra.mainPreview.draw();
-                ColorZebra.fixedNumPreview.draw();
+                setColorMap(map);
             }
         }).hover(function() { // Saturate hovered and focused thumbnails
             saturateThumbnail(this);
@@ -263,6 +255,15 @@
 
             return [x, y];
         }
+    }
+    
+    function deselectColormap() {
+        if (ColorZebra.colorMap.canvas) {
+            ColorZebra.colorMap.canvas.setDesaturate(true);
+            ColorZebra.colorMap.canvas.draw();
+        }
+        
+        $('#colormaps>.selected').removeClass('selected');
     }
     
     function createControlPointWidgets() {
@@ -508,6 +509,8 @@
             points,
             3
         );
+        
+        deselectColormap();
 
         ColorZebra.mainPreview.draw();
         ColorZebra.fixedNumPreview.draw();
