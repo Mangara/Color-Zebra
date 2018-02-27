@@ -69,6 +69,27 @@ canvas {
     margin: 0.75em 1.5%;
 }
 
+
+#colormaps>button {
+    width: 20%;
+    height: 4em;
+    border: 1px solid #eee;
+    border-radius: 0.3em;
+    margin: 1em 1.5%;
+    background-size: 100% 1px;
+    background-repeat: repeat-y;
+    -webkit-transition: height 40ms linear, margin 40ms linear;
+    -moz-transition: height 40ms linear, margin 40ms linear;
+    -o-transition: height 40ms linear, margin 40ms linear;
+    transition: height 40ms linear, margin 40ms linear;
+}
+
+#colormaps>button:hover, #colormaps>button:focus {
+    height: 4.5em;
+    margin: 0.75em 1.5%;
+}
+
+
 #colormaps>.selected {
     height: 4.5em;
     margin: 0.75em 1.5%;

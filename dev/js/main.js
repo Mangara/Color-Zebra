@@ -31,6 +31,42 @@
             
             this.title = map.description;
         });
+
+        $('#colormaps>button').each(function() {
+            var map = ColorZebra.colorMaps[this.id];
+            
+            if (map === ColorZebra.colorMap) {
+                $(this).addClass('selected');
+            }
+            
+            var canvas = document.createElement("canvas");
+            var width = Math.ceil($(this).outerWidth());
+            canvas.width = width;
+            canvas.height = 1;
+
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+                var imageData = ctx.createImageData(width, 1);
+                
+                for (var x = 0; x < width; x++) {
+                    var val = x / (width - 1);
+                    var rgb = ColorZebra.Color.LABtoIntegerRGB(map.getLABColor(val));
+                    var pixel = x * 4;
+                    imageData.data[pixel    ] = rgb[0];
+                    imageData.data[pixel + 1] = rgb[1];
+                    imageData.data[pixel + 2] = rgb[2];
+                    imageData.data[pixel + 3] = 255; // opaque
+                    //ctx.fillStyle = my_gradient;
+                    //ctx.fillRect(x, 0, 1, height);
+                }
+
+                ctx.putImageData(imageData, 0, 0);
+
+                this.style.backgroundImage = "url(" + canvas.toDataURL() + ")";
+            }
+            
+            this.title = map.description;
+        });
         
         createControlPointWidgets();
         
