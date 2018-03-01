@@ -50,29 +50,34 @@ canvas {
     text-align: center;
 }
 
-#colormaps>canvas {
+#colormaps>button {
     width: 20%;
-    height: 4em;
+    height: 4.5em;
     border: 1px solid #eee;
     border-radius: 0.3em;
     margin: 1em 1.5%;
-    cursor: pointer;
-    outline: none;
+    vertical-align: text-bottom;
+    background-size: 100% 1px;
+    background-repeat: repeat-y;
     -webkit-transition: height 40ms linear, margin 40ms linear;
     -moz-transition: height 40ms linear, margin 40ms linear;
     -o-transition: height 40ms linear, margin 40ms linear;
     transition: height 40ms linear, margin 40ms linear;
 }
 
-#colormaps>canvas:hover, #colormaps>canvas:focus {
-    height: 4.5em;
+#colormaps>button:hover, #colormaps>button:focus {
+    height: 5em;
     margin: 0.75em 1.5%;
 }
 
 #colormaps>.selected {
-    height: 4.5em;
+    height: 5em;
     margin: 0.75em 1.5%;
     border: 1px solid #333;
+}
+
+#colormaps>.inverted {
+    transform: scaleX(-1);
 }
 
 #preview-container {
@@ -104,6 +109,7 @@ canvas {
 }
 
 button, a[download] {
+    cursor: pointer;
     border: 1px solid #a6a6a6;
     border-radius: 3px;
     padding: 0.15em 0.4em;
@@ -141,7 +147,6 @@ button:disabled, a[download]:disabled {
 }
 
 a[download] {
-    cursor: default;
     text-decoration: none;
 }
 
@@ -342,34 +347,35 @@ input[type=range].slider::-ms-thumb {
     
     #colormaps {
         height: 20em;
+        position: relative;
     }
     
-    #colormaps>canvas {
+    #colormaps>button {
         position: absolute;
         width: 40%;
     }
-    
+
     #Glow, #Sunrise {
-        top: 21.5em;
+        top: 0em;
     }
     
     #Fern, #Lake {
-        top: 27em;
+        top: 6.5em;
     }
     
     #Sky, #Twilight {
-        top: 32.5em;
+        top: 13em;
     }
     
     #Dawn, #Water {
-        top: 38em;
+        top: 19.5em;
     }
     
-    #Glow, #Fern, #Sky, #Dawn {
+    #Glow, #Fern, #Sky, #Water {
         left: 6%;
     }
     
-    #Sunrise, #Lake, #Twilight, #Water {
+    #Sunrise, #Lake, #Twilight, #Dawn {
         left: 52.5%;
     }
 }
@@ -415,30 +421,6 @@ input[type=range].slider::-ms-thumb {
     #dl-controls {
         border-top-left-radius: 0;
         border-top-right-radius: 0;
-    }
-    
-    #Glow, #Sunrise {
-        top: 23.5em;
-    }
-    
-    #Fern, #Lake {
-        top: 29em;
-    }
-    
-    #Sky, #Twilight {
-        top: 34.5em;
-    }
-    
-    #Dawn, #Water {
-        top: 40em;
-    }
-    
-    #Glow, #Fern, #Sky, #Dawn {
-        left: 6%;
-    }
-    
-    #Sunrise, #Lake, #Twilight, #Water {
-        left: 52.5%;
     }
     
     .ack-column {
