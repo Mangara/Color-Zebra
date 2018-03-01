@@ -18,20 +18,6 @@
         ColorZebra.fixedNumPreview.draw();
         
         // Create all thumbnails
-        $('#colormaps>canvas').each(function() {
-            var map = ColorZebra.colorMaps[this.id];
-            map.canvas = new ColorZebra.CMapDrawer(this, map);
-            
-            if (map === ColorZebra.colorMap) {
-                map.canvas.setDesaturate(false);
-                $(this).addClass('selected');
-            }
-            
-            map.canvas.draw();
-            
-            this.title = map.description;
-        });
-
         $('#colormaps>button').each(function() {
             var map = ColorZebra.colorMaps[this.id];
             
@@ -56,8 +42,6 @@
                     imageData.data[pixel + 1] = rgb[1];
                     imageData.data[pixel + 2] = rgb[2];
                     imageData.data[pixel + 3] = 255; // opaque
-                    //ctx.fillStyle = my_gradient;
-                    //ctx.fillRect(x, 0, 1, height);
                 }
 
                 ctx.putImageData(imageData, 0, 0);
@@ -84,53 +68,18 @@
         });
 
         // Change the active colormap when a thumbnail is clicked
-        $('#colormaps>canvas').click(function() {
+        $('#colormaps>button').click(function() {
             var map = ColorZebra.colorMaps[this.id];
             
             if (ColorZebra.colorMap !== map) {
-                // Saturate the thumbnail
-                map.canvas.setDesaturate(false);
-                map.canvas.draw();
-                
-                // Desaturate the current thumbnail
-                deselectColormap();
-                
                 // Switch the selected class
+                deselectColormap();
                 $(this).addClass('selected');
                 
                 // Switch maps
                 setColorMap(map);
             }
-        }).hover(function() { // Saturate hovered and focused thumbnails
-            saturateThumbnail(this);
-        }, function() {
-            desaturateThumbnail(this);
-        }).focus(function() {
-            saturateThumbnail(this);
-        }).blur(function() {
-            desaturateThumbnail(this);
-        }).keydown(function(e) { // React to key events when focused
-            var code = e.which; // 13 = Enter, 32 = Space
-            if ((code === 13) || (code === 32)) {
-                $(this).click();
-                return false; // Prevent the event from bubbling further
-            }
         });
-        
-        function saturateThumbnail(thumbnail) {
-            var canvas = ColorZebra.colorMaps[thumbnail.id].canvas;
-            canvas.setDesaturate(false);
-            canvas.draw();
-        }
-        
-        function desaturateThumbnail(thumbnail) {
-            var map = ColorZebra.colorMaps[thumbnail.id];
-            
-            if (ColorZebra.colorMap !== map) {
-                map.canvas.setDesaturate(true);
-                map.canvas.draw();
-            }
-        }
         
         // Update the number of colors
         $('#numcolors').keydown(function(e) {
@@ -198,10 +147,7 @@
             ColorZebra.mainPreview.draw();
             ColorZebra.fixedNumPreview.draw();
 
-            $('#colormaps>canvas').each(function() {
-                var map = ColorZebra.colorMaps[this.id];
-                map.canvas.draw();
-            });
+            $('#colormaps>button').toggleClass('inverted');
         });
 
         // Editor controls
@@ -294,11 +240,6 @@
     }
     
     function deselectColormap() {
-        if (ColorZebra.colorMap.canvas) {
-            ColorZebra.colorMap.canvas.setDesaturate(true);
-            ColorZebra.colorMap.canvas.draw();
-        }
-        
         $('#colormaps>.selected').removeClass('selected');
     }
     

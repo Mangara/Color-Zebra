@@ -76,6 +76,10 @@ canvas {
     border: 1px solid #333;
 }
 
+#colormaps>.inverted {
+    transform: scaleX(-1);
+}
+
 #preview-container {
     height: 10em;
 }
