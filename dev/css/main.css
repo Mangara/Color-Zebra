@@ -170,11 +170,6 @@ input {
     width: 3.5em;
 }
 
-a>img {
-    height: 0.85em;
-    vertical-align: middle;
-}
-
 #settings-container {
     padding: 0.5em 4em;
     border: 1px solid #333;
@@ -330,6 +325,12 @@ input[type=range].slider::-ms-thumb {
 .ack-column>p>em {
     font-weight: bold;
     font-style: normal;
+}
+
+.social {
+    height: 2em;
+    margin-left: 1em;
+    vertical-align: middle;
 }
 
 @media all and (max-width: 64em) {
