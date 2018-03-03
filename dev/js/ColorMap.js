@@ -23,11 +23,8 @@
         }
         
         function normalizeLightness(value) {
-            if (ColorZebra.settings.inverted) {
-                return points[points.length - 1][0] - value * (points[points.length - 1][0] - points[0][0]);
-            } else {
-                return points[0][0] + value * (points[points.length - 1][0] - points[0][0]);
-            }
+            var dLightness = Math.max(0, Math.min(1, value)) * (points[points.length - 1][0] - points[0][0]);
+            return (ColorZebra.settings.inverted ? points[points.length - 1][0] - dLightness : points[0][0] + dLightness);
         }
     }
 }( window.ColorZebra = window.ColorZebra || {}, jQuery ));
