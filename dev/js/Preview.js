@@ -18,7 +18,8 @@
                 return;
             }
             
-            drawPiecewiseLinear();
+            //drawPiecewiseLinear();
+            drawQuadratic();
         }
 
         var STEPS = 10;
@@ -65,7 +66,7 @@
             // In each row, the ramp goes from <z> on the left to (1 - <z>) on the right, where <z> = 0.05 * ((height - y) / height)^2 is the maximum amplitude of the sine wave in that row
             // Drawing it per-pixel is slow, because context fillstyle changes are very expensive (much more than any calculations we're doing).
             // This method draws the same image, except that the amplitude of the sine wave approximates the quadratic modulation with a piecewise linear one.
-            // This is ~25 times faster than drawing each pixel for STEPS = 10, and nearly impossible to distinguish visually.
+            // For STEPS = 10 this is nearly impossible to distinguish visually.
             var context = canvas.getContext("2d"),
                 x, y,
                 width = canvas.width,
@@ -108,6 +109,11 @@
                 
                 for (y = 0; y < height; y++) {
                     var val = amp[y] * sinVal[x % 8] + getRamp(xt, amp[y]);
+
+                    if (val > 1) {
+                        console.log('x: ' + x + ' y: ' + y + ' sinVal: ' + sinVal[x % 8] + ' amp: ' + amp[y] + ' ramp: ' + getRamp(xt, amp[y]) + ' val: ' + val);
+                    }
+
                     var rgb = ColorZebra.Color.LABtoIntegerRGB(ColorZebra.colorMap.getLABColor(val));
 
                     var pixel = (y * width + x) * 4;
