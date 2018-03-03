@@ -18,8 +18,7 @@
                 return;
             }
             
-            //drawPiecewiseLinear();
-            drawQuadratic();
+            drawPiecewiseLinear();
         }
 
         var STEPS = 10;
@@ -64,14 +63,13 @@
             // This method draws the same image, except that the amplitude of the sine wave approximates the quadratic modulation with a piecewise linear one.
             // For STEPS = 10 this is nearly impossible to distinguish visually.
             var context = canvas.getContext("2d"),
-                x, y,
                 width = canvas.width,
                 height = canvas.height;
                         
-            for (x = 0; x < width; x++) {
+            for (var x = 0; x < width; x++) {
                 var my_gradient = context.createLinearGradient(0, 0, 0, height);
                 
-                for (y = STEPS; y > 0; y--) {
+                for (var y = STEPS; y > 0; y--) {
                     my_gradient.addColorStop(stops[y], ColorZebra.colorMap.getCSSColor(values[x][y]));
                 }
                 
@@ -105,11 +103,6 @@
                 
                 for (y = 0; y < height; y++) {
                     var val = amp[y] * sinVal[x % 8] + getRamp(xt, amp[y]);
-
-                    if (val > 1) {
-                        console.log('x: ' + x + ' y: ' + y + ' sinVal: ' + sinVal[x % 8] + ' amp: ' + amp[y] + ' ramp: ' + getRamp(xt, amp[y]) + ' val: ' + val);
-                    }
-
                     var rgb = ColorZebra.Color.LABtoIntegerRGB(ColorZebra.colorMap.getLABColor(val));
 
                     var pixel = (y * width + x) * 4;
