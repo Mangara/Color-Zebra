@@ -42,18 +42,14 @@
             for (x = 0; x < 8; x++) {
                 sinVal.push(Math.sin(x * Math.PI / 4));
             }
-
-            var xt = 0;
-            var dx = 1 / (width - 1);
                         
             for (x = 0; x < width; x++) {
+                var xt = x / (width - 1);
                 values[x] = [];
 
                 for (y = STEPS; y > 0; y--) {
                     values[x][y] = amp[y] * sinVal[x % 8] + getRamp(xt, amp[y]);
                 }
-
-                xt += dx;
             }
         }
 
@@ -65,16 +61,15 @@
             // In each row, the ramp goes from <z> on the left to (1 - <z>) on the right, where <z> = 0.05 * ((height - y) / height)^2 is the maximum amplitude of the sine wave in that row
             // Drawing it per-pixel is slow, because context fillstyle changes are very expensive (much more than any calculations we're doing).
             // This method draws the same image, except that the amplitude of the sine wave approximates the quadratic modulation with a piecewise linear one.
-            // This is ~25 times faster than drawing each pixel for STEPS = 10, and nearly impossible to distinguish visually.
+            // For STEPS = 10 this is nearly impossible to distinguish visually.
             var context = canvas.getContext("2d"),
-                x, y,
                 width = canvas.width,
                 height = canvas.height;
                         
-            for (x = 0; x < width; x++) {
+            for (var x = 0; x < width; x++) {
                 var my_gradient = context.createLinearGradient(0, 0, 0, height);
                 
-                for (y = STEPS; y > 0; y--) {
+                for (var y = STEPS; y > 0; y--) {
                     my_gradient.addColorStop(stops[y], ColorZebra.colorMap.getCSSColor(values[x][y]));
                 }
                 
