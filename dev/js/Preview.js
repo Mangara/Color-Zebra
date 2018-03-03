@@ -43,18 +43,14 @@
             for (x = 0; x < 8; x++) {
                 sinVal.push(Math.sin(x * Math.PI / 4));
             }
-
-            var xt = 0;
-            var dx = 1 / (width - 1);
                         
             for (x = 0; x < width; x++) {
+                var xt = x / (width - 1);
                 values[x] = [];
 
                 for (y = STEPS; y > 0; y--) {
                     values[x][y] = amp[y] * sinVal[x % 8] + getRamp(xt, amp[y]);
                 }
-
-                xt += dx;
             }
         }
 
