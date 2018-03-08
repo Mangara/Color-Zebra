@@ -44,49 +44,28 @@ canvas {
     border-width: 1px 0px; /* Turn off left and right borders */
 }
 
-#colormaps {
-    margin: 1em 0;
-    padding: 1em;
-    text-align: center;
-}
-
-#colormaps>button {
-    width: 20%;
-    height: 4.5em;
-    border: 1px solid #eee;
-    border-radius: 0.3em;
-    margin: 1em 1.5%;
-    vertical-align: text-bottom;
-    background-size: 100% 1px;
-    background-repeat: repeat-y;
-    -webkit-transition: height 40ms linear, margin 40ms linear;
-    -moz-transition: height 40ms linear, margin 40ms linear;
-    -o-transition: height 40ms linear, margin 40ms linear;
-    transition: height 40ms linear, margin 40ms linear;
-}
-
-#colormaps>button:hover, #colormaps>button:focus {
-    height: 5em;
-    margin: 0.75em 1.5%;
-}
-
-#colormaps>.selected {
-    height: 5em;
-    margin: 0.75em 1.5%;
-    border: 1px solid #333;
-}
-
-#colormaps>.inverted {
-    transform: scaleX(-1);
-}
-
 #preview-container {
     height: 10em;
+    position: sticky;
+    top: 0;
+    padding-top: 0.5em;
+    margin-top: -0.5em;
+    background: white;
+    z-index: 1; /* Above regular elements */
+}
+
+#export {
+    position: sticky;
+    top: 10.5em;
+    background: white;
+    height: 4em;
+    padding-top: 0.5em;
+    margin-top: 1.5em;
+    z-index: 1; /* Above regular elements */
 }
 
 #fixednum-preview-container {
     height: 4em;
-    margin-top: 2em;
 }
 
 #controls-wrapper {
@@ -168,6 +147,42 @@ input {
 
 #numcolors {
     width: 3.5em;
+}
+
+#colormaps {
+    margin: 1em 0;
+    padding: 1em;
+    text-align: center;
+}
+
+#colormaps>button {
+    width: 20%;
+    height: 4.5em;
+    border: 1px solid #eee;
+    border-radius: 0.3em;
+    margin: 1em 1.5%;
+    vertical-align: text-bottom;
+    background-size: 100% 1px;
+    background-repeat: repeat-y;
+    -webkit-transition: height 40ms linear, margin 40ms linear;
+    -moz-transition: height 40ms linear, margin 40ms linear;
+    -o-transition: height 40ms linear, margin 40ms linear;
+    transition: height 40ms linear, margin 40ms linear;
+}
+
+#colormaps>button:hover, #colormaps>button:focus {
+    height: 5em;
+    margin: 0.75em 1.5%;
+}
+
+#colormaps>.selected {
+    height: 5em;
+    margin: 0.75em 1.5%;
+    border: 1px solid #333;
+}
+
+#colormaps>.inverted {
+    transform: scaleX(-1);
 }
 
 #settings-container {
