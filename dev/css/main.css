@@ -248,11 +248,26 @@ input[type="number"]:focus {
     width: 15em;
 }
 
+#ab-container {
+    position: relative;
+}
+
+#abBackground {
+    width: 14em;
+    height: 14em;
+    position: absolute;
+    left: 0.25em;
+    border: none;
+    border-radius: 3px;
+    z-index: -1;
+}
+
 #abControl {
     cursor: pointer;
     width: 14em;
     height: 14em;
-    margin-left: 0.25em;
+    position: absolute;
+    left: 0.25em;
     border: 1px solid #eeeeee;
     border-radius: 3px;
 }
