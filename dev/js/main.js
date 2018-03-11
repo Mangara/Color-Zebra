@@ -214,12 +214,16 @@
             setWidgetLightness(getSelectedWidget(), this.value);
         });
 
-        $('#abControl').click(function(event) {
-            var coords = getFractionalClickCoordinates(this, event);
-            var a = Math.round(minAB + coords[0] * (maxAB - minAB));
-            var b = Math.round(minAB + coords[1] * (maxAB - minAB));
-
-            setWidgetAB(getSelectedWidget(), a, b);
+        var abDrag = false;
+        $('#abControl').mousedown(function(event) {
+            abDrag = true;
+            changeAB(getFractionalClickCoordinates(this, event));
+        }).mousemove(function(event) {
+            if (abDrag) {
+                changeAB(getFractionalClickCoordinates(this, event));
+            }
+        }).mouseup(function(event) {
+            abDrag = false;
         });
 
         function getFractionalClickCoordinates(element, event) {
@@ -236,6 +240,13 @@
             var y = (event.pageY - offsetY) / element.scrollHeight;
 
             return [x, y];
+        }
+
+        function changeAB(coords) {
+            var a = Math.round(minAB + coords[0] * (maxAB - minAB));
+            var b = Math.round(minAB + coords[1] * (maxAB - minAB));
+
+            setWidgetAB(getSelectedWidget(), a, b);
         }
     }
     
@@ -275,16 +286,18 @@
 
             updateWidgetBackground(widget);
             updateColorMapFromEditor();
-            updateColorControls();
 
             if ($(this).is(':first-child')) {
                 // The lightness changed
+                updateLightnessControls();
                 updateButtonsEnabledState();
 
                 var newVal = parseInt($(this).val());
 
                 widget.prev().children("input[type=number]").first().attr('max', newVal - 1);
                 widget.next().children("input[type=number]").first().attr('min', newVal + 1);
+            } else {
+                updateABControls();
             }
         });
         
@@ -354,11 +367,31 @@
     }
     
     function updateColorControls() {
+        updateLightnessControls();
+    }
+
+    function updateLightnessControls() {
         var selectedWidget = getSelectedWidget();
         var color = getWidgetColor(selectedWidget);
         
         updateLightnessSlider(selectedWidget, color);
-        updateColorCanvas(color);
+
+        var bgCanvas = $('#abBackground')[0];
+        drawColorCanvasBackground(bgCanvas.getContext("2d"), color[0], bgCanvas.width, bgCanvas.height);
+
+        updateABControls();
+    }
+
+    function updateABControls() {
+        var color = getWidgetColor(getSelectedWidget());
+        var canvas = $('#abControl')[0];
+        var context = canvas.getContext("2d"),
+            width = canvas.width,
+            height = canvas.height;
+
+        context.clearRect(0, 0, width, height);
+        drawColorCanvasCurve(context, color, width, height);
+        drawColorCanvasIndicator(context, color, width, height);
     }
     
     function updateLightnessSlider(selectedWidget, color) {
@@ -387,18 +420,6 @@
         }
 
         $("#dynamic").text("#lightness::-webkit-slider-runnable-track { " + rule + " }");
-    }
-    
-    function updateColorCanvas(color) {
-        var canvas = $('#abControl')[0];
-        var context = canvas.getContext("2d"),
-            x, y,
-            width = canvas.width,
-            height = canvas.height;
-
-        drawColorCanvasBackground(context, color[0], width, height);
-        drawColorCanvasCurve(context, color, width, height);
-        drawColorCanvasIndicator(context, color, width, height);
     }
     
     var minAB = -128;
