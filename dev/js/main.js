@@ -210,7 +210,7 @@
             updateColorMapFromEditor();
         });
 
-        $('#lightness').change(function() {
+        $('#lightness').on('input', function() {
             setWidgetLightness(getSelectedWidget(), this.value);
         });
 
