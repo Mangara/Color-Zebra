@@ -58,9 +58,10 @@ cp ../dev/html/index.html .
 cp ../dev/css/main.css .
 
 # Merge JS files into one big file
-cat ../dev/js/Color.js ../dev/js/LinearSpline.js ../dev/js/QuadraticSpline.js ../dev/js/ColorMap.js ../dev/js/ColorMaps.js ../dev/js/Exporter.js ../dev/js/CMapDrawer.js ../dev/js/Preview.js ../dev/js/FixedNumPreview.js ../dev/js/main.js > all.js
- # Delete superfluous function close / open pairs
- sed -i '/}( window.ColorZebra = window.ColorZebra || {}, jQuery ));(function( ColorZebra, $, undefined ) {/d' all.js
+cat ../dev/js/Settings.js ../dev/js/Color.js ../dev/js/LinearSpline.js ../dev/js/QuadraticSpline.js ../dev/js/ColorMap.js ../dev/js/ColorMaps.js ../dev/js/Exporter.js ../dev/js/Preview.js ../dev/js/FixedNumPreview.js ../dev/js/main.js > all.js
+
+# Delete superfluous function close / open pairs
+sed -i '/}( window.ColorZebra = window.ColorZebra || {}, jQuery ));(function( ColorZebra, $, undefined ) {/d' all.js
 
 # Copy images
 cp -r ../dev/figs .
