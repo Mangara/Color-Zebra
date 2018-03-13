@@ -275,7 +275,6 @@ input[type="number"]:focus {
 /* Slider stylings, based on styling from http://danielstern.ca/range.css/ */
 input[type=range].slider {
   -webkit-appearance: none;
-  width: 100%;
   margin: 0;
   border: 0px solid black;
 }
