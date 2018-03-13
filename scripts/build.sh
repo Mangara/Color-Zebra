@@ -1,5 +1,23 @@
 #!/bin/bash
 
+# Process parameters
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+
+    case $key in
+        --final)
+            opt_final=TRUE
+            shift # past argument
+        ;;
+        *)
+                # unknown option
+        ;;
+    esac
+
+    shift # past argument or value
+done
+
 # Delete the build directory
 rm -rf ./build
 
@@ -53,6 +71,9 @@ java -jar ../tools/MiniWeb-v1.0.jar index.html --replace
 rm miniweb.properties
 
 # Commit changes
-git add .
-git commit -m "Update."
-git push
+if [ $opt_final ]
+then
+    git add .
+    git commit -m "Update."
+    git push
+fi
