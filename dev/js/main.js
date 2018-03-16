@@ -319,7 +319,7 @@
     }
     
     function getWidgetColor(widget) {
-        return $(widget).children("input[type=number]").get().map(x => parseInt(x.value));
+        return $(widget).children("input[type=number]").get().map( function(x) { return parseInt(x.value); } ); // MiniWeb can't parse map(x => ... )
     }
     
     function setWidgetAB(widget, a, b) {
