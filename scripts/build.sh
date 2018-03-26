@@ -68,7 +68,7 @@ cp -r ../dev/figs .
 
 # Minify everything
 cp ../tools/miniweb.properties .
-java -jar ../tools/MiniWeb-v1.0.jar index.html --replace
+java -jar ../tools/MiniWeb-v1.3-SNAPSHOT.jar index.html --replace
 rm miniweb.properties
 
 # Commit changes
