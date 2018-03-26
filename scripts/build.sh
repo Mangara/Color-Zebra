@@ -8,13 +8,12 @@ do
     case $key in
         --final)
             opt_final=TRUE
-            shift # past argument
         ;;
         *)
-                # unknown option
+            # unknown option
         ;;
     esac
-
+    
     shift # past argument or value
 done
 
