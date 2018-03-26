@@ -3,6 +3,9 @@
     ColorZebra.colorMap = ColorZebra.colorMaps['Lake'];
     ColorZebra.numColors = 12;
     
+    var minAB = -128;
+    var maxAB =  128;
+    
     // Handle on-load stuff
     $(document).ready(function() {
         // Init settings
@@ -431,9 +434,6 @@
 
         $("#dynamic").text("#lightness::-webkit-slider-runnable-track { " + rule + " }");
     }
-    
-    var minAB = -128;
-    var maxAB =  128;
     
     function drawColorCanvasBackground(context, lightness, width, height) {
         var imageData = context.createImageData(width, height);
