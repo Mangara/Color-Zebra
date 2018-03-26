@@ -383,7 +383,8 @@
     }
 
     function updateABControls() {
-        var color = getWidgetColor(getSelectedWidget());
+        var selectedWidget = getSelectedWidget();
+        var color = getWidgetColor(selectedWidget);
         var canvas = $('#abControl')[0];
         var context = canvas.getContext("2d"),
             width = canvas.width,
@@ -392,6 +393,12 @@
         context.clearRect(0, 0, width, height);
         drawColorCanvasCurve(context, color, width, height);
         drawColorCanvasIndicator(context, color, width, height);
+        
+        var lightnessInput = selectedWidget.children("input[type=number]").first();
+        var min = parseInt(lightnessInput.attr('min'));
+        var max = parseInt(lightnessInput.attr('max'));
+        
+        updateLightnessSliderBackground(min, max, color);
     }
     
     function updateLightnessSlider(selectedWidget, color) {
@@ -405,7 +412,10 @@
         lightnessSlider.attr('max', max);
         lightnessSlider.val(color[0]);
         
-        // Update slider background
+        updateLightnessSliderBackground(min, max, color);
+    }
+    
+    function updateLightnessSliderBackground(min, max, color) {
         var start = 0.5;
         var end = 14.5;
         var nStops = 8;
